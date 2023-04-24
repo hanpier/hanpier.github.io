@@ -1,47 +1,278 @@
-<?xml version="1.0" encoding="utf-8"?>
-<search>
-  <entry>
-    <title>k-Fold交叉验证代码</title>
-    <url>/2023/02/09/23-44-15/</url>
-    <content><![CDATA[<h3 id="1-k-Fold交叉验证代码"><a href="#1-k-Fold交叉验证代码" class="headerlink" title="1. k-Fold交叉验证代码"></a>1. k-Fold交叉验证代码</h3><p>k-Fold交叉验证是一种在机器学习中常用的验证模型性能的方法。它将训练数据集分为k个大小相似的互不重叠的子集，每个子集验证一次，最终验证结果是k次验证结果的平均值。</p>
-<p>以下是使用python实现的k-Fold交叉验证代码：</p>
-<span id="more"></span>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">learning_function</span>(<span class="params">train_data</span>):</span><br><span class="line">    <span class="comment"># 模拟学习函数，实际应用中请根据实际需求实现学习函数</span></span><br><span class="line">    <span class="keyword">return</span> train_data.mean()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">evaluate</span>(<span class="params">model, test_data</span>):</span><br><span class="line">    <span class="comment"># 模拟评估函数，实际应用中请根据实际需求实现评估函数</span></span><br><span class="line">    <span class="keyword">return</span> (model - test_data.mean()) ** <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">KFoldCV</span>(<span class="params">D, A, k</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    k-fold 交叉验证</span></span><br><span class="line"><span class="string">    参数说明：</span></span><br><span class="line"><span class="string">    D：给定数据集</span></span><br><span class="line"><span class="string">    A：学习函数</span></span><br><span class="line"><span class="string">    k：折数</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    n = <span class="built_in">len</span>(D)</span><br><span class="line">    performance = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(k):</span><br><span class="line">        test_data = D[<span class="built_in">int</span>(i * n / k) : <span class="built_in">int</span>((i + <span class="number">1</span>) * n / k)]</span><br><span class="line">        train_data = np.concatenate((D[: <span class="built_in">int</span>(i * n / k)], D[<span class="built_in">int</span>((i + <span class="number">1</span>) * n / k) :]), axis=<span class="number">0</span>)</span><br><span class="line">        model = A(train_data)</span><br><span class="line">        p = evaluate(model, test_data)</span><br><span class="line">        performance.append(p)</span><br><span class="line">    <span class="keyword">return</span> np.mean(performance)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成随机数据</span></span><br><span class="line">np.random.seed(<span class="number">0</span>)</span><br><span class="line">data = np.random.rand(<span class="number">100</span>, <span class="number">2</span>)</span><br><span class="line"><span class="comment"># 进行 k 折交叉验证</span></span><br><span class="line">performance = KFoldCV(data, learning_function, <span class="number">5</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;平均误差：&quot;</span>, performance)</span><br></pre></td></tr></table></figure>
-<h3 id="2-np-concatenate函数"><a href="#2-np-concatenate函数" class="headerlink" title="2. np.concatenate函数"></a>2. np.concatenate函数</h3><p>np.concatenate是numpy库中的函数，用于将多个数组拼接起来。它的参数有两个：</p>
-<ol>
-<li>arrays：要拼接的数组的列表</li>
-<li>axis：拼接方向，0表示按行拼接，1表示按列拼接</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">array1 = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]])</span><br><span class="line">array2 = np.array([[<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>], [<span class="number">10</span>, <span class="number">11</span>, <span class="number">12</span>]])</span><br><span class="line">array3 = np.array([[<span class="number">13</span>, <span class="number">14</span>, <span class="number">15</span>], [<span class="number">16</span>, <span class="number">17</span>, <span class="number">18</span>]])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 沿轴 0 连接（按行）</span></span><br><span class="line">result = np.concatenate((array1, array2, array3), axis=<span class="number">0</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Concatenation along axis 0: \n&quot;</span>, result)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 沿轴 1 连接（按列）</span></span><br><span class="line">result = np.concatenate((array1, array2, array3), axis=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Concatenation along axis 1: \n&quot;</span>, result)</span><br></pre></td></tr></table></figure>
-<figure class="highlight tap"><table><tr><td class="code"><pre><span class="line">沿轴<span class="number"> 0 </span>连接: </span><br><span class="line"> [[<span class="number"> 1 </span><span class="number"> 2 </span> 3]</span><br><span class="line"> [<span class="number"> 4 </span><span class="number"> 5 </span> 6]</span><br><span class="line"> [<span class="number"> 7 </span><span class="number"> 8 </span> 9]</span><br><span class="line"> [10<span class="number"> 11 </span>12]</span><br><span class="line"> [13<span class="number"> 14 </span>15]</span><br><span class="line"> [16<span class="number"> 17 </span>18]]</span><br><span class="line">沿轴<span class="number"> 1 </span>连接: </span><br><span class="line"> [[<span class="number"> 1 </span><span class="number"> 2 </span><span class="number"> 3 </span><span class="number"> 7 </span><span class="number"> 8 </span><span class="number"> 9 </span>13<span class="number"> 14 </span>15]</span><br><span class="line"> [<span class="number"> 4 </span><span class="number"> 5 </span><span class="number"> 6 </span>10<span class="number"> 11 </span>12<span class="number"> 16 </span>17 18]]</span><br></pre></td></tr></table></figure>
-<h3 id="3-np-random-rand"><a href="#3-np-random-rand" class="headerlink" title="3. np.random.rand"></a>3. np.random.rand</h3><p>Numpy中提供了多种生成随机数的函数，主要包括以下几种：</p>
-<ul>
-<li><p>np.random.rand: 生成[0, 1)范围内的均匀分布随机数</p>
-</li>
-<li><p>np.random.randn: 生成标准正态分布随机数</p>
-</li>
-<li><p>np.random.randint: 生成给定范围内的整数随机数</p>
-</li>
-<li><p>np.random.choice: 从给定的一维数组中随机选取数据</p>
-</li>
-<li><p>np.random.permutation: 对给定的一维数组进行随机排列</p>
-</li>
-</ul>
-<p>在使用这些函数时，通过np.random.seed(0)可以设置随机数生成的种子，使得每次生成的随机数都相同。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">np.random.seed(<span class="number">0</span>)</span><br><span class="line"><span class="comment"># 生成 [0, 1) 之间的随机数</span></span><br><span class="line">result = np.random.rand(<span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;rand: \n&quot;</span>, result)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成 [0, 1) 之间的均匀分布随机数</span></span><br><span class="line">result = np.random.rand(<span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;rand: \n&quot;</span>, result)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成正态分布的随机数</span></span><br><span class="line">result = np.random.randn(<span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;randn: \n&quot;</span>, result)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成指定区间内的随机整数</span></span><br><span class="line">result = np.random.randint(<span class="number">0</span>, <span class="number">10</span>, size=(<span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;randint: \n&quot;</span>, result)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成指定形状的随机数组，并从给定的一维数组中随机选择元素</span></span><br><span class="line">array = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>])</span><br><span class="line">result = np.random.choice(array, size=(<span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;choice: \n&quot;</span>, result)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成指定形状的随机数组，并从给定的一维数组中随机选择元素，可以重复</span></span><br><span class="line">result = np.random.choice(array, size=(<span class="number">2</span>, <span class="number">3</span>), replace=<span class="literal">True</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;choice with replacement: \n&quot;</span>, result)</span><br></pre></td></tr></table></figure>
-<figure class="highlight lua"><table><tr><td class="code"><pre><span class="line">rand: </span><br><span class="line"> <span class="string">[[0.31179588 0.69634349 0.37775184]</span></span><br><span class="line"><span class="string"> [0.17960368 0.02467873 0.06724963]]</span></span><br><span class="line">rand: </span><br><span class="line"> <span class="string">[[0.67939277 0.45369684 0.53657921]</span></span><br><span class="line"><span class="string"> [0.89667129 0.99033895 0.21689698]]</span></span><br><span class="line">randn: </span><br><span class="line"> <span class="string">[[-1.22543552  0.84436298 -1.00021535]</span></span><br><span class="line"><span class="string"> [-1.5447711   1.18802979  0.31694261]]</span></span><br><span class="line">randint: </span><br><span class="line"> <span class="string">[[7 0 3]</span></span><br><span class="line"><span class="string"> [8 7 7]]</span></span><br><span class="line">choice: </span><br><span class="line"> <span class="string">[[6 3 2]</span></span><br><span class="line"><span class="string"> [1 5 1]]</span></span><br><span class="line">choice with replacement: </span><br><span class="line"> <span class="string">[[4 5 5]</span></span><br><span class="line"><span class="string"> [2 1 3]]</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>机器学习</category>
-      </categories>
-      <tags>
-        <tag>Jupyter</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>从Autoencoder到beta-VAE</title>
-    <url>/2023/04/24/18-35-12/</url>
-    <content><![CDATA[<p><a href="https://lilianweng.github.io/posts/2018-08-12-vae/#reparameterization-trick">https://lilianweng.github.io/posts/2018-08-12-vae/#reparameterization-trick</a> 中文翻译</p>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha256-Z1K5uhUaJXA7Ll0XrZ/0JhX4lAtZFpT6jkKrEDT0drU=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hanpier.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.14.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="https:&#x2F;&#x2F;lilianweng.github.io&#x2F;posts&#x2F;2018-08-12-vae&#x2F;#reparameterization-trick 中文翻译 从Autoencoder到beta-VAEAutoencoder是一个为了使用中间有一个狭窄的bottleneck的神经网络模型重建高维数据而发明的（对于Varaitional Autoencoder可能不是这样的，我们将在后面的章节中详">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从Autoencoder到beta-VAE">
+<meta property="og:url" content="https://hanpier.github.io/2023/04/24/18-35-12/index.html">
+<meta property="og:site_name" content="Hanpier&#39;s Blog">
+<meta property="og:description" content="https:&#x2F;&#x2F;lilianweng.github.io&#x2F;posts&#x2F;2018-08-12-vae&#x2F;#reparameterization-trick 中文翻译 从Autoencoder到beta-VAEAutoencoder是一个为了使用中间有一个狭窄的bottleneck的神经网络模型重建高维数据而发明的（对于Varaitional Autoencoder可能不是这样的，我们将在后面的章节中详">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:\Users\10148\Desktop\blog\blog\source\images\%E4%BB%8EAutoencoder%E5%88%B0beta-VAE\1.png">
+<meta property="og:image" content="c:\Users\10148\Desktop\blog\blog\source\images\%E4%BB%8EAutoencoder%E5%88%B0beta-VAE\2.png">
+<meta property="og:image" content="c:\Users\10148\Desktop\blog\blog\source\images\%E4%BB%8EAutoencoder%E5%88%B0beta-VAE\3.png">
+<meta property="og:image" content="c:\Users\10148\Desktop\blog\blog\source\images\%E4%BB%8EAutoencoder%E5%88%B0beta-VAE\4.png">
+<meta property="og:image" content="c:\Users\10148\Desktop\blog\blog\source\images\%E4%BB%8EAutoencoder%E5%88%B0beta-VAE\5.png">
+<meta property="og:image" content="c:\Users\10148\Desktop\blog\blog\source\images\%E4%BB%8EAutoencoder%E5%88%B0beta-VAE\forward_vs_reversed_KL.png">
+<meta property="og:image" content="c:\Users\10148\Desktop\blog\blog\source\images\%E4%BB%8EAutoencoder%E5%88%B0beta-VAE\reparameterization-trick.png">
+<meta property="og:image" content="c:\Users\10148\Desktop\blog\blog\source\images\%E4%BB%8EAutoencoder%E5%88%B0beta-VAE\vae-gaussian.png">
+<meta property="og:image" content="c:\Users\10148\Desktop\blog\blog\source\images\%E4%BB%8EAutoencoder%E5%88%B0beta-VAE\VQ-VAE.png">
+<meta property="og:image" content="c:\Users\10148\Desktop\blog\blog\source\images\%E4%BB%8EAutoencoder%E5%88%B0beta-VAE\VQ-VAE-2.png">
+<meta property="og:image" content="c:\Users\10148\Desktop\blog\blog\source\images\%E4%BB%8EAutoencoder%E5%88%B0beta-VAE\VQ-VAE-2-algo.png">
+<meta property="og:image" content="c:\Users\10148\Desktop\blog\blog\source\images\%E4%BB%8EAutoencoder%E5%88%B0beta-VAE\TD-VAE-state-space.png">
+<meta property="og:image" content="c:\Users\10148\Desktop\blog\blog\source\images\%E4%BB%8EAutoencoder%E5%88%B0beta-VAE\TD-VAE.png">
+<meta property="article:published_time" content="2023-04-24T09:35:12.000Z">
+<meta property="article:modified_time" content="2023-04-24T09:36:33.005Z">
+<meta property="article:author" content="Hanpier">
+<meta property="article:tag" content="生成模型">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:\Users\10148\Desktop\blog\blog\source\images\%E4%BB%8EAutoencoder%E5%88%B0beta-VAE\1.png">
+
+
+<link rel="canonical" href="https://hanpier.github.io/2023/04/24/18-35-12/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hanpier.github.io/2023/04/24/18-35-12/","path":"2023/04/24/18-35-12/","title":"从Autoencoder到beta-VAE"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>从Autoencoder到beta-VAE | Hanpier's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Hanpier's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">少吃零食，多睡觉</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%8EAutoencoder%E5%88%B0beta-VAE"><span class="nav-text">从Autoencoder到beta-VAE</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Notions"><span class="nav-text">Notions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Autoencoder"><span class="nav-text">Autoencoder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Denoising-Autoencoder"><span class="nav-text">Denoising Autoencoder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sparse-Autoencoder"><span class="nav-text">Sparse Autoencoder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Contractive-Autoencoder"><span class="nav-text">Contractive Autoencoder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VAE-Variational-Autoencoder"><span class="nav-text">VAE: Variational Autoencoder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Loss-Function-ELBO"><span class="nav-text">Loss Function: ELBO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reparameterization-Trick"><span class="nav-text">Reparameterization Trick</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Beta-VAE"><span class="nav-text">Beta-VAE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VQ-VAE-and-VQ-VAE-2"><span class="nav-text">VQ-VAE and VQ-VAE-2</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hanpier"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Hanpier</p>
+  <div class="site-description" itemprop="description">Welcome!</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/hanpier" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hanpier" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:oyshiyu@toki.waseda.jp" title="E-Mail → mailto:oyshiyu@toki.waseda.jp" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://hanpier.github.io/2023/04/24/18-35-12/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Hanpier">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hanpier's Blog">
+      <meta itemprop="description" content="Welcome!">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="从Autoencoder到beta-VAE | Hanpier's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          从Autoencoder到beta-VAE
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-04-24 18:35:12 / 修改时间：18:36:33" itemprop="dateCreated datePublished" datetime="2023-04-24T18:35:12+09:00">2023-04-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2018-08-12-vae/#reparameterization-trick">https://lilianweng.github.io/posts/2018-08-12-vae/#reparameterization-trick</a> 中文翻译</p>
 <h1 id="从Autoencoder到beta-VAE"><a href="#从Autoencoder到beta-VAE" class="headerlink" title="从Autoencoder到beta-VAE"></a>从Autoencoder到beta-VAE</h1><p>Autoencoder是一个为了使用中间有一个狭窄的bottleneck的神经网络模型重建高维数据而发明的（对于Varaitional Autoencoder可能不是这样的，我们将在后面的章节中详细研究它）。一个很好的副产品是降维：bottleneck层捕获了压缩的潜在编码。这样的低维表示可以用作各种应用（即搜索中的嵌入向量），帮助数据压缩，或者揭示潜在的数据生成因素。</p>
 <h2 id="Notions"><a href="#Notions" class="headerlink" title="Notions"></a>Notions</h2><div class="table-container">
 <table>
@@ -103,7 +334,7 @@
 </tbody>
 </table>
 </div>
-<h2 id="Autoencoder"><a href="#Autoencoder" class="headerlink" title="Autoencoder"></a>Autoencoder</h2><p><strong><em>Autoencoder</em></strong>是一种神经网络，旨在以无监督的方式学习一个恒等函数，以重建原始输入，同时在这个过程中压缩数据，从而发现一个更有效和压缩的表示。这个想法起源于20世纪80年代，后来被<a href="https://www.science.org/doi/full/10.1126/science.1127647">Hinton&amp;Salakhutdinov, 2006</a>的开创性论文所推广。</p>
+<h2 id="Autoencoder"><a href="#Autoencoder" class="headerlink" title="Autoencoder"></a>Autoencoder</h2><p><strong><em>Autoencoder</em></strong>是一种神经网络，旨在以无监督的方式学习一个恒等函数，以重建原始输入，同时在这个过程中压缩数据，从而发现一个更有效和压缩的表示。这个想法起源于20世纪80年代，后来被<a target="_blank" rel="noopener" href="https://www.science.org/doi/full/10.1126/science.1127647">Hinton&amp;Salakhutdinov, 2006</a>的开创性论文所推广。</p>
 <p>它由两个网络组成：</p>
 <ul>
 <li><strong><em>Encoder network</em></strong>：它将原始的高维输入转变成成潜在的低维编码。输入的尺寸比输出的尺寸大。</li>
@@ -154,7 +385,7 @@ L_{\mathrm{SAE}}(\theta) & =L(\theta)+\beta \sum_{l=1}^L \sum_{j=1}^{s_l} D_{\ma
 \end{aligned}</script><p><img src="C:\Users\10148\Desktop\blog\blog\source\images\从Autoencoder到beta-VAE\3.png" alt="3" style="zoom:50%;" /></p>
 <script type="math/tex; mode=display">
 \text{图3. 均值为}\rho=0.5\text{的伯努利分布与均值为}0\le\hat{\rho}\le1\text{的伯努利分布之间的KL散度}</script><p><strong>$k-$Sparse Autoencoder</strong></p>
-<p>在<strong>$k-$Sparse Autoencoder</strong><a href="https://arxiv.org/abs/1312.5663">（Makhzani和Frey，2013）</a>中，通过在具有线性激活函数的bottleneck层中只保留前$k$个最高的激活来强制执行稀疏性。首先，我们通过编码器网络运行前馈，得到压缩后的代码： $\mathbf{z=g(x)}$。对代码向量$\mathbf{z}$中的值进行排序，只保留最大的$k$个值，而其他神经元被设置为0。现在我们有了一个稀疏化的编码： $\mathbf{z’{=Sparsify(z)}}$。计算输出和稀疏化代码的损失、<br>$\mathbf{L=|x-f(z’)|_2^2}$。而且，反向传播只经过前$k$个被激活的隐藏单元！</p>
+<p>在<strong>$k-$Sparse Autoencoder</strong><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1312.5663">（Makhzani和Frey，2013）</a>中，通过在具有线性激活函数的bottleneck层中只保留前$k$个最高的激活来强制执行稀疏性。首先，我们通过编码器网络运行前馈，得到压缩后的代码： $\mathbf{z=g(x)}$。对代码向量$\mathbf{z}$中的值进行排序，只保留最大的$k$个值，而其他神经元被设置为0。现在我们有了一个稀疏化的编码： $\mathbf{z’{=Sparsify(z)}}$。计算输出和稀疏化代码的损失、<br>$\mathbf{L=|x-f(z’)|_2^2}$。而且，反向传播只经过前$k$个被激活的隐藏单元！</p>
 <div>
     <center>
     <img src="C:\Users\10148\Desktop\blog\blog\source\images\从Autoencoder到beta-VAE\4.png" alt="1" style="zoom:50%;">
@@ -168,7 +399,7 @@ L_{\mathrm{SAE}}(\theta) & =L(\theta)+\beta \sum_{l=1}^L \sum_{j=1}^{s_l} D_{\ma
 <script type="math/tex; mode=display">
 \left\|J_f(\mathbf{x})\right\|_F^2=\sum_{i j}\left(\frac{\partial h_j(\mathbf{x})}{\partial x_i}\right)^2</script><p>其中$h_j$是压缩代码 $z=f(x)$ 中的一个单元输出。</p>
 <p>这个惩罚项是所学编码相对于输入维度的所有偏导数的平方之和。作者声称，根据经验，这个惩罚项被发现可以刻画出一个对应于低维非线性流形的表征，同时对流形正交的多数方向保持不变。</p>
-<h2 id="VAE-Variational-Autoencoder"><a href="#VAE-Variational-Autoencoder" class="headerlink" title="VAE: Variational Autoencoder"></a>VAE: Variational Autoencoder</h2><p>变量自动编码器（<a href="https://arxiv.org/abs/1312.6114">Kingma &amp; Welling, 2014</a>）的想法，简称VAE，实际上与上述所有自动编码器模型不太相似，但深深扎根于变分贝叶斯和图模型的方法。</p>
+<h2 id="VAE-Variational-Autoencoder"><a href="#VAE-Variational-Autoencoder" class="headerlink" title="VAE: Variational Autoencoder"></a>VAE: Variational Autoencoder</h2><p>变量自动编码器（<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1312.6114">Kingma &amp; Welling, 2014</a>）的想法，简称VAE，实际上与上述所有自动编码器模型不太相似，但深深扎根于变分贝叶斯和图模型的方法。</p>
 <p>我们不是把输入映射成一个固定的向量，而是要把它映射成一个分布。让我们把这个分布标记为$p_\theta$，以$\theta$为参数。数据输入$x$和潜在编码向量$z$之间的关系可以完全定义为：</p>
 <ul>
 <li><p>先验 $p_\theta(z)$</p>
@@ -202,7 +433,7 @@ p_\theta\left(\mathbf{x}^{(i)}\right)=\int p_\theta\left(\mathbf{x}^{(i)} \mid \
 </ul>
 <h2 id="Loss-Function-ELBO"><a href="#Loss-Function-ELBO" class="headerlink" title="Loss Function: ELBO"></a>Loss Function: ELBO</h2><p>估计的后验$q<em>\phi(\mathbf{z|x})$应该非常接近实际的$p</em>\theta(\mathbf{z|x})$。我们可以用Kullback-Leibler散度来量化这两个分布之间的距离。KL散度$D_{KL}(X|Y)$衡量如果用分布Y来表示X，会损失多少信息。</p>
 <p>在我们的例子中，我们想要最小化关于$\phi$ 的$D<em>{KL}(q</em>\phi(\mathbf{z|x})\mid p_\theta(\mathbf{z|x}))$。</p>
-<p>但为什么要使用$D<em>{KL}(q</em>\phi|p<em>\theta)$（反向KL）而不是$D</em>{KL}(p<em>\theta|q</em>\phi)$（前向KL）？Eric Jang在他关于贝叶斯变异方法的<a href="https://blog.evjang.com/2016/08/variational-bayes.html">文章</a>中有一个很好的解释。快速回顾一下:</p>
+<p>但为什么要使用$D<em>{KL}(q</em>\phi|p<em>\theta)$（反向KL）而不是$D</em>{KL}(p<em>\theta|q</em>\phi)$（前向KL）？Eric Jang在他关于贝叶斯变异方法的<a target="_blank" rel="noopener" href="https://blog.evjang.com/2016/08/variational-bayes.html">文章</a>中有一个很好的解释。快速回顾一下:</p>
 <div>    <center>    <img src="C:\Users\10148\Desktop\blog\blog\source\images\从Autoencoder到beta-VAE\forward_vs_reversed_KL.png" alt="1" style="zoom:50%;">    <br>        <!--换行-->    图6. 正向和反向的KL发散对如何匹配两个分布有不同的要求。(图片来源：blog.evjang.com/2016/08/variational-bayes.html)<!--标题-->    </center></div>    
 
 <p>前向 $\mathrm{KL}$ 散度: $D<em>{\mathrm{KL}}(P \mid Q)=\mathbb{E}</em>{z \sim P(z)} \log \frac{P(z)}{Q(z)}$; 我们必须确保  $\mathrm{P}(\mathrm{z})&gt;0$时$\mathrm{Q}(\mathrm{z})&gt;0$。优化后的变分分布$q(z)$必须覆盖整个 $p(z)$。</p>
@@ -282,10 +513,10 @@ L_{\mathrm{BETA}}(\phi, \beta)=-\mathbb{E}*{\mathbf{z} \sim q*\phi(\mathbf{z} \m
 <p>codebook 中的embedding vectors通过 EMA（指数移动平均）进行更新。给定一个code vector$\mathbf{e}<em>i$，假设我们有 $n_i$ 个编码器输出向量$\left{\mathbf{z}</em>{i, j}\right}_{j=1}^{n_i}$，它们被量化为 $\mathbf{e}_i$：</p>
 <script type="math/tex; mode=display">
 N_i^{(t)}=\gamma N_i^{(t-1)}+(1-\gamma) n_i^{(t)} \quad \mathbf{m}_i^{(t)}=\gamma \mathbf{m}_i^{(t-1)}+(1-\gamma) \sum_{j=1}^{n_i^{(t)}} \mathbf{z}_{i, j}^{(t)} \quad \mathbf{e}_i^{(t)}=\mathbf{m}_i^{(t)} / N_i^{(t)}</script><p>其中 $(t)$ 指时间序列批次。$N_i$ 和 $\mathbf{m}_i$ 分别是累积向量计数和体积。</p>
-<p>VQ-VAE-2（<a href="https://arxiv.org/abs/1906.00446">Ali Razavi 等，2019</a>）是一个两级分层的 VQ-VAE，与自注意力自回归模型结合</p>
+<p>VQ-VAE-2（<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1906.00446">Ali Razavi 等，2019</a>）是一个两级分层的 VQ-VAE，与自注意力自回归模型结合</p>
 <ol>
 <li>第 1 阶段是<strong>训练分层 VQ-VAE</strong>：分层潜变量的设计旨在将局部模式（例如纹理）与全局信息（例如对象形状）分离。更大的底层codebook 的训练受到更小的顶层码的限制，这样就不必从头开始学习所有内容。</li>
-<li>第2阶段是<strong>学习一个先验分布</strong>，使我们可以从中采样并生成图像。这样，解码器可以接收从训练中采样的类似分布的输入向量。使用一个强大的自回归模型，增强了多头自注意力层来捕捉先验分布（例如<a href="https://arxiv.org/abs/1712.09763">PixelSNAIL；Chen等人，2017</a>）。</li>
+<li>第2阶段是<strong>学习一个先验分布</strong>，使我们可以从中采样并生成图像。这样，解码器可以接收从训练中采样的类似分布的输入向量。使用一个强大的自回归模型，增强了多头自注意力层来捕捉先验分布（例如<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1712.09763">PixelSNAIL；Chen等人，2017</a>）。</li>
 </ol>
 <p>考虑到VQ-VAE-2取决于在简单的分层设置中配置的离散潜在变量，它生成的图像质量非常惊人。</p>
 <div>    <center>    <img src="C:\Users\10148\Desktop\blog\blog\source\images\从Autoencoder到beta-VAE\VQ-VAE-2.png" alt="VQ-VAE-2" style="zoom:50%;">    <br>        <!--换行-->    图10.分层VQ-VAE和多阶段图像生成的架构。(图片来源：Ali Razavi, et al. 2019) <!--标题-->    </center></div>
@@ -364,12 +595,110 @@ TD-VAE (“Temporal Difference VAE”; [Gregor et al., 2019](https://arxiv.org/a
 </ul>
 <p>为了结合跳跃预测的思想，顺序 ELBO 不仅要对$ t$,$t+1$起作用，还要对两个相距较远的时间戳 $t_1\textless t_2 $起作用。这是要最大化的最终 TD-VAE 目标函数：</p>
 <script type="math/tex; mode=display">
-J_{t_1, t_2}=\mathbb{E}\left[\log p_D\left(x_{t_2} \mid z_{t_2}\right)+\log p_B\left(z_{t_1} \mid b_{t_1}\right)+\log p_T\left(z_{t_2} \mid z_{t_1}\right)-\log p_B\left(z_{t_2} \mid b_{t_2}\right)-\log p_S\left(z_{t_1} \mid z_{t_2}, b_{t_1}, b_{t_2}\right)\right]</script><div>    <center>    <img src="C:\Users\10148\Desktop\blog\blog\source\images\从Autoencoder到beta-VAE\TD-VAE.png" style="zoom:50%;" />    <br>        <!--换行-->    图13. TD-VAE 架构的详细概述，做得非常好。（图片来源：[TD-VAE论文](https://arxiv.org/abs/1806.03107)） <!--标题-->    </center></div>]]></content>
-      <categories>
-        <category>深度学习</category>
-      </categories>
-      <tags>
-        <tag>生成模型</tag>
-      </tags>
-  </entry>
-</search>
+J_{t_1, t_2}=\mathbb{E}\left[\log p_D\left(x_{t_2} \mid z_{t_2}\right)+\log p_B\left(z_{t_1} \mid b_{t_1}\right)+\log p_T\left(z_{t_2} \mid z_{t_1}\right)-\log p_B\left(z_{t_2} \mid b_{t_2}\right)-\log p_S\left(z_{t_1} \mid z_{t_2}, b_{t_1}, b_{t_2}\right)\right]</script><div>    <center>    <img src="C:\Users\10148\Desktop\blog\blog\source\images\从Autoencoder到beta-VAE\TD-VAE.png" style="zoom:50%;" />    <br>        <!--换行-->    图13. TD-VAE 架构的详细概述，做得非常好。（图片来源：[TD-VAE论文](https://arxiv.org/abs/1806.03107)） <!--标题-->    </center></div>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Hanpier
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://hanpier.github.io/2023/04/24/18-35-12/" title="从Autoencoder到beta-VAE">https://hanpier.github.io/2023/04/24/18-35-12/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/" rel="tag"># 生成模型</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/02/09/23-44-15/" rel="prev" title="k-Fold交叉验证代码">
+                  <i class="fa fa-chevron-left"></i> k-Fold交叉验证代码
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hanpier</span>
+</div><script color="0,0,255" opacity="0.5" zIndex="-1" count="99" src="https://lib.baomitu.com/canvas-nest.js/1.0.1/canvas-nest.js"></script>
+
+
+    </div>
+  </footer>
+
+  
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"hanpier","repo":"hanpier.github.io","client_id":"7add9871ac1cd4117b3a","client_secret":"b8c0e15de02d03567d2ecba4cfe87d53acf171ec","admin_user":"hanpier","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"bbdfa392db4dbd153c858b324b546128"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+
+</body>
+</html>
