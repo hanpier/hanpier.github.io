@@ -27,25 +27,25 @@
 <meta property="og:site_name" content="Hanpier&#39;s Blog">
 <meta property="og:description" content="https:&#x2F;&#x2F;lilianweng.github.io&#x2F;posts&#x2F;2018-08-12-vae&#x2F;#reparameterization-trick 中文翻译 从Autoencoder到beta-VAE Autoencoder是一个为了使用中间有一个狭窄的bottleneck的神经网络模型重建高维数据而发明的（对于Varaitional Autoencoder可能不是这样的，我们将在后面的章">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/autoencoder-architecture.png">
-<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/denoising-autoencoder-architecture.png">
-<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/KL%20divergence.png">
-<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/k-sparse-autoencoder.png">
-<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/VAE-graphical-model.png">
-<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/forward_vs_reversed_KL.png">
-<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/reparameterization-trick.png">
-<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/vae-gaussian.png">
-<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/VQ-VAE.png">
-<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/VQ-VAE-2.png">
-<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/VQ-VAE-2-algo.png">
-<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/TD-VAE-state-space.png">
-<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/TD-VAE.png">
+<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/autoencoder-architecture.png">
+<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/denoising-autoencoder-architecture.png">
+<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/KL%20divergence.png">
+<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/k-sparse-autoencoder.png">
+<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/VAE-graphical-model.png">
+<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/forward_vs_reversed_KL.png">
+<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/reparameterization-trick.png">
+<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/vae-gaussian.png">
+<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/VQ-VAE.png">
+<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/VQ-VAE-2.png">
+<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/VQ-VAE-2-algo.png">
+<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/TD-VAE-state-space.png">
+<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/TD-VAE.png">
 <meta property="article:published_time" content="2023-04-24T10:17:24.000Z">
-<meta property="article:modified_time" content="2023-04-24T11:19:34.512Z">
+<meta property="article:modified_time" content="2023-04-24T11:44:31.497Z">
 <meta property="article:author" content="Hanpier">
 <meta property="article:tag" content="生成模型">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/autoencoder-architecture.png">
+<meta name="twitter:image" content="https://hanpier.github.io/2023/04/24/19-17-24/autoencoder-architecture.png">
 
 
 <link rel="canonical" href="https://hanpier.github.io/2023/04/24/19-17-24/">
@@ -250,7 +250,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2023-04-24 19:17:24 / 修改时间：20:19:34" itemprop="dateCreated datePublished" datetime="2023-04-24T19:17:24+09:00">2023-04-24</time>
+      <time title="创建时间：2023-04-24 19:17:24 / 修改时间：20:44:31" itemprop="dateCreated datePublished" datetime="2023-04-24T19:17:24+09:00">2023-04-24</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -275,6 +275,7 @@
         <p>https://lilianweng.github.io/posts/2018-08-12-vae/#reparameterization-trick 中文翻译</p>
 <h1 id="从autoencoder到beta-vae">从Autoencoder到beta-VAE</h1>
 <p>Autoencoder是一个为了使用中间有一个狭窄的bottleneck的神经网络模型重建高维数据而发明的（对于Varaitional Autoencoder可能不是这样的，我们将在后面的章节中详细研究它）。一个很好的副产品是降维：bottleneck层捕获了压缩的潜在编码。这样的低维表示可以用作各种应用（即搜索中的嵌入向量），帮助数据压缩，或者揭示潜在的数据生成因素。</p>
+<span id="more"></span>
 <h2 id="notions">Notions</h2>
 <table>
 <colgroup>
@@ -341,9 +342,7 @@
 <li><p><strong><em>Encoder network</em></strong>：它将原始的高维输入转变成成潜在的低维编码。输入的尺寸比输出的尺寸大。</p></li>
 <li><p><strong><em>Decoder network</em></strong>：解码器网络从编码中恢复数据，可能会有越来越大的输出层。</p></li>
 </ul>
-<figure>
-<img src="从Autoencoder到beta-VAE\autoencoder-architecture.png" alt="autoencoder-architecture" /><figcaption aria-hidden="true">autoencoder-architecture</figcaption>
-</figure>
+<img src="/2023/04/24/19-17-24/autoencoder-architecture.png" class="" title="autoencoder-architecture">
 <center>
 图1. 自动编码器模型结构的说明
 </center>
@@ -360,9 +359,7 @@ L_{\mathrm{AE}}(\theta, \phi)=\frac{1}{n} \sum_{i=1}^n\left(\mathbf{x}^{(i)}-f_\
 L_{\mathrm{DAE}}(\theta, \phi) &amp; =\frac{1}{n} \sum_{i=1}^n\left(\mathbf{x}^{(i)}-f_\theta\left(g_\phi\left(\tilde{\mathbf{x}}^{(i)}\right)\right)\right)^2
 \end{aligned}
 \]</span> 其中<span class="math inline">\(\mathcal{M}_{\mathcal{D}}\)</span>定义了从真实数据样本到噪声或者损坏样本的映射。</p>
-<figure>
-<img src="从Autoencoder到beta-VAE\denoising-autoencoder-architecture.png" alt="denoising-autoencoder-architecture" /><figcaption aria-hidden="true">denoising-autoencoder-architecture</figcaption>
-</figure>
+<img src="/2023/04/24/19-17-24/denoising-autoencoder-architecture.png" class="" title="denoising-autoencoder-architecture">
 <center>
 图2. 去噪自动编码器模型结构的说明
 </center>
@@ -382,14 +379,13 @@ L_{\mathrm{SAE}}(\theta) &amp; =L(\theta)+\beta \sum_{l=1}^L \sum_{j=1}^{s_l} D_
 &amp; =L(\theta)+\beta \sum_{l=1}^L \sum_{j=1}^{s_l} \rho \log \frac{\rho}{\hat{\rho}_j^{(l)}}+(1-\rho) \log \frac{1-\rho}{1-\hat{\rho}_j^{(l)}}
 \end{aligned}
 \]</span></p>
-<p><img src="从Autoencoder到beta-VAE\KL%20divergence.png" alt="KL divergence" /> <span class="math display">\[
+<img src="/2023/04/24/19-17-24/KL%20divergence.png" class="" title="KL divergence">
+<p><span class="math display">\[
 \text{图3. 均值为}\rho=0.5\text{的伯努利分布与均值为}0\le\hat{\rho}\le1\text{的伯努利分布之间的KL散度}
 \]</span></p>
 <p><strong><span class="math inline">\(k-\)</span>Sparse Autoencoder</strong></p>
 <p>在<strong><span class="math inline">\(k-\)</span>Sparse Autoencoder</strong><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1312.5663">（Makhzani和Frey，2013）</a>中，通过在具有线性激活函数的bottleneck层中只保留前<span class="math inline">\(k\)</span>个最高的激活来强制执行稀疏性。首先，我们通过编码器网络运行前馈，得到压缩后的代码： <span class="math inline">\(\mathbf{z=g(x)}\)</span>。对代码向量<span class="math inline">\(\mathbf{z}\)</span>中的值进行排序，只保留最大的<span class="math inline">\(k\)</span>个值，而其他神经元被设置为0。现在我们有了一个稀疏化的编码： <span class="math inline">\(\mathbf{z&#39;{=Sparsify(z)}}\)</span>。计算输出和稀疏化代码的损失、 <span class="math inline">\(\mathbf{L=|x-f(z&#39;)|_2^2}\)</span>。而且，反向传播只经过前<span class="math inline">\(k\)</span>个被激活的隐藏单元！</p>
-<figure>
-<img src="从Autoencoder到beta-VAE\k-sparse-autoencoder.png" alt="k-sparse-autoencoder" /><figcaption aria-hidden="true">k-sparse-autoencoder</figcaption>
-</figure>
+<img src="/2023/04/24/19-17-24/k-sparse-autoencoder.png" class="" title="k-sparse-autoencoder">
 <center>
 图4. 从有1000个隐藏单元的MNIST中学习的不同稀疏度k的自动编码器的过滤器（图片来源：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1312.5663">Makhzani和Frey，2013年</a>）
 </center>
@@ -420,7 +416,8 @@ L_{\mathrm{SAE}}(\theta) &amp; =L(\theta)+\beta \sum_{l=1}^L \sum_{j=1}^{s_l} D_
 <p>现在让我们更新这个方程，以更好地展示数据生成过程，从而涉及编码矢量。 <span class="math display">\[
 p_\theta\left(\mathbf{x}^{(i)}\right)=\int p_\theta\left(\mathbf{x}^{(i)} \mid \mathbf{z}\right) p_\theta(\mathbf{z}) d \mathbf{z}
 \]</span> 不幸的是，按照这种方式计算 <span class="math inline">\(p_\theta\left(\mathbf{x}^{(i)}\right)\)</span> 是非常昂贵的，因为要检查所有可能的 <span class="math inline">\(\mathbf{z}\)</span> 值并将它们相加。为了缩小值空间以便更快地进行搜索，我们想引入一个新的近似函数，用于输出给定输入 <span class="math inline">\(\mathbf{x}\)</span> 的可能编码，即 <span class="math inline">\(q_\phi(\mathbf{z} \mid \mathbf{x})\)</span>，由参数 <span class="math inline">\(\phi\)</span> 参数化。</p>
-<p><img src="从Autoencoder到beta-VAE\VAE-graphical-model.png" alt="VAE-graphical-model" /> <span class="math display">\[
+<img src="/2023/04/24/19-17-24/VAE-graphical-model.png" class="" title="VAE-graphical-model">
+<p><span class="math display">\[
 \text{图5. 变分自编码器中涉及的图形模型。实线表示生成分布}\:p_\theta(.)，\text{虚线表示后验分布}\:q_\phi(\mathbf{z}\mid \mathbf{x})\text{以近似难以计算的后验}\:p_\theta(\mathbf{z} \mid \mathbf{x})。
 \]</span> 现在这个结构看起来很像一个autoencoder：</p>
 <ul>
@@ -431,9 +428,7 @@ p_\theta\left(\mathbf{x}^{(i)}\right)=\int p_\theta\left(\mathbf{x}^{(i)} \mid \
 <p>估计的后验<span class="math inline">\(q_\phi(\mathbf{z|x})\)</span>应该非常接近实际的<span class="math inline">\(p_\theta(\mathbf{z|x})\)</span>。我们可以用Kullback-Leibler散度来量化这两个分布之间的距离。KL散度<span class="math inline">\(D_{KL}(X|Y)\)</span>衡量如果用分布Y来表示X，会损失多少信息。</p>
 <p>在我们的例子中，我们想要最小化关于<span class="math inline">\(\phi\)</span> 的<span class="math inline">\(D_{KL}(q_\phi(\mathbf{z|x})\mid p_\theta(\mathbf{z|x}))\)</span>。</p>
 <p>但为什么要使用<span class="math inline">\(D_{KL}(q_\phi|p_\theta)\)</span>（反向KL）而不是<span class="math inline">\(D_{KL}(p_\theta|q_\phi)\)</span>（前向KL）？Eric Jang在他关于贝叶斯变异方法的<a target="_blank" rel="noopener" href="https://blog.evjang.com/2016/08/variational-bayes.html">文章</a>中有一个很好的解释。快速回顾一下:</p>
-<figure>
-<img src="从Autoencoder到beta-VAE\forward_vs_reversed_KL.png" alt="forward_vs_reversed_KL" /><figcaption aria-hidden="true">forward_vs_reversed_KL</figcaption>
-</figure>
+<img src="/2023/04/24/19-17-24/forward_vs_reversed_KL.png" class="" title="forward_vs_reversed_KL">
 <center>
 图6. 正向和反向的KL发散对如何匹配两个分布有不同的要求。(图片来源：blog.evjang.com/2016/08/variational-bayes.html)
 </center>
@@ -469,9 +464,10 @@ L_{\mathrm{VAE}}(\theta, \phi) &amp; =-\log p_\theta(\mathbf{x})+D_{\mathrm{KL}}
 &amp;\mathbf{z}=\boldsymbol{\mu}+\boldsymbol{\sigma} \odot \boldsymbol{\epsilon}, where\:\boldsymbol{\epsilon} \sim \mathcal{N}(0, \boldsymbol{I}) \quad ; Reparameterization\:trick.
 \end{align}
 \]</span> 其中 <span class="math inline">\(\odot\)</span> 表示逐元素相乘。</p>
-<p><img src="从Autoencoder到beta-VAE\reparameterization-trick.png" alt="reparameterization-trick" /> <span class="math display">\[
+<img src="/2023/04/24/19-17-24/reparameterization-trick.png" class="" title="reparameterization-trick">
+<p><span class="math display">\[
 \text{图7. 说明了重新参数化技巧如何使得}\mathbf{z}\text{采样过程可训练。(图片来源：Kingma在NIPS 2015研讨会上的幻灯片第12页)}
-\]</span> <img src="从Autoencoder到beta-VAE\vae-gaussian.png" alt="vae-gaussian" /> <span class="math display">\[
+\]</span> <img src="/2023/04/24/19-17-24/vae-gaussian.png" class="" title="vae-gaussian"> <span class="math display">\[
 \text{图8. 具有多元高斯假设的variational autoencoder模型的图示}
 \]</span></p>
 <p>编码步骤：</p>
@@ -507,9 +503,7 @@ L_{\mathrm{BETA}}(\phi, \beta)=-\mathbb{E}*{\mathbf{z} \sim q*\phi(\mathbf{z} \m
 <p>编码器的输出 <span class="math inline">\(E(\mathbf{x})=\mathbf{z}_e\)</span> 经过最近邻查找以匹配 <span class="math inline">\(K\)</span> 个嵌入向量之一，然后匹配的码向量成为解码器的输入 <span class="math inline">\(D(\)</span>.<span class="math inline">\() :\)</span></p>
 <p><span class="math inline">\(\mathbf{z}_q(\mathbf{x})=\)</span> Quantize <span class="math inline">\((E(\mathbf{x}))=\mathbf{e}_k\)</span> ，<span class="math inline">\(k=\arg \min _i\left\|E(\mathbf{x})-\mathbf{e}_i\right\|_2\)</span></p>
 <p>请注意，在不同的应用程序中，离散潜在变量的形状可能不同；例如，语音为1D，图像为2D，视频为3D。</p>
-<figure>
-<img src="从Autoencoder到beta-VAE\VQ-VAE.png" alt="VQ-VAE" /><figcaption aria-hidden="true">VQ-VAE</figcaption>
-</figure>
+<img src="/2023/04/24/19-17-24/VQ-VAE.png" class="" title="VQ-VAE">
 <center>
 图9. VQ-VAE 的架构（图片来源：van den Oord, et al. 2017）
 </center>
@@ -529,23 +523,17 @@ N_i^{(t)}=\gamma N_i^{(t-1)}+(1-\gamma) n_i^{(t)} \quad \mathbf{m}_i^{(t)}=\gamm
 <li>第2阶段是<strong>学习一个先验分布</strong>，使我们可以从中采样并生成图像。这样，解码器可以接收从训练中采样的类似分布的输入向量。使用一个强大的自回归模型，增强了多头自注意力层来捕捉先验分布（例如<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1712.09763">PixelSNAIL；Chen等人，2017</a>）。</li>
 </ol>
 <p>考虑到VQ-VAE-2取决于在简单的分层设置中配置的离散潜在变量，它生成的图像质量非常惊人。</p>
-<figure>
-<img src="从Autoencoder到beta-VAE\VQ-VAE-2.png" alt="VQ-VAE-2" /><figcaption aria-hidden="true">VQ-VAE-2</figcaption>
-</figure>
+<img src="/2023/04/24/19-17-24/VQ-VAE-2.png" class="" title="VQ-VAE-2">
 <center>
 图10.分层VQ-VAE和多阶段图像生成的架构。(图片来源：Ali Razavi, et al. 2019)
 </center>
-<figure>
-<img src="从Autoencoder到beta-VAE\VQ-VAE-2-algo.png" alt="VQ-VAE-2-algo" /><figcaption aria-hidden="true">VQ-VAE-2-algo</figcaption>
-</figure>
+<img src="/2023/04/24/19-17-24/VQ-VAE-2-algo.png" class="" title="VQ-VAE-2-algo">
 <center>
 图11. VQ-VAE-2算法。(图片来源：Ali Razavi, et al. 2019)
 </center>
 <h2 id="td-vae">TD-VAE</h2>
 <p>TD-VAE (“Temporal Difference VAE”; <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1806.03107">Gregor et al., 2019</a>)适用于连续的数据。它依赖于三个主要想法，描述如下。</p>
-<figure>
-<img src="从Autoencoder到beta-VAE\TD-VAE-state-space.png" alt="TD-VAE-state-space" /><figcaption aria-hidden="true">TD-VAE-state-space</figcaption>
-</figure>
+<img src="/2023/04/24/19-17-24/TD-VAE-state-space.png" class="" title="TD-VAE-state-space">
 <center>
 图12. 马尔可夫链模型的状态空间模型。
 </center>
@@ -586,14 +574,14 @@ N_i^{(t)}=\gamma N_i^{(t-1)}+(1-\gamma) n_i^{(t)} \quad \mathbf{m}_i^{(t)}=\gamm
 <li><span class="math inline">\(p\left(x_t \mid z_t\right)\)</span> 是通常定义下的编码器；</li>
 <li><span class="math inline">\(p\left(x_t \mid z_t\right) \rightarrow p_D\left(x_t \mid z_t\right)\)</span>；</li>
 </ul>
-<ol type="1">
+<ol start="2" type="1">
 <li><span class="math inline">\(p_T(\)</span>.) 是<strong>transition</strong> distribution：</li>
 </ol>
 <ul>
 <li><span class="math inline">\(p\left(z_t \mid z_{t-1}\right)\)</span> 捕捉潜变量之间的时序依赖关系；</li>
 <li><span class="math inline">\(p\left(z_t \mid z_{t-1}\right) \rightarrow p_T\left(z_t \mid z_{t-1}\right)\)</span>；</li>
 </ul>
-<ol type="1">
+<ol start="3" type="1">
 <li><span class="math inline">\(p_B(\)</span>.$) 是<strong>belief</strong> distribution：</li>
 </ol>
 <ul>
@@ -601,7 +589,7 @@ N_i^{(t)}=\gamma N_i^{(t-1)}+(1-\gamma) n_i^{(t)} \quad \mathbf{m}_i^{(t)}=\gamm
 <li><span class="math inline">\(p\left(z_{t-1} \mid x_{&lt;t}\right) \rightarrow p_B\left(z_{t-1} \mid b_{t-1}\right)\)</span>；</li>
 <li><span class="math inline">\(q\left(z_t \mid x_{\leq t}\right) \rightarrow p_B\left(z_t \mid b_t\right)\)</span>；</li>
 </ul>
-<ol type="1">
+<ol start="4" type="1">
 <li><span class="math inline">\(p_S(\)</span>.$) 是<strong>smoothing</strong> distribution：</li>
 </ol>
 <ul>
@@ -611,9 +599,7 @@ N_i^{(t)}=\gamma N_i^{(t-1)}+(1-\gamma) n_i^{(t)} \quad \mathbf{m}_i^{(t)}=\gamm
 <p>为了结合跳跃预测的思想，顺序 ELBO 不仅要对$ t<span class="math inline">\(,\)</span>t+1$起作用，还要对两个相距较远的时间戳 $t_1t_2 $起作用。这是要最大化的最终 TD-VAE 目标函数： <span class="math display">\[
 J_{t_1, t_2}=\mathbb{E}\left[\log p_D\left(x_{t_2} \mid z_{t_2}\right)+\log p_B\left(z_{t_1} \mid b_{t_1}\right)+\log p_T\left(z_{t_2} \mid z_{t_1}\right)-\log p_B\left(z_{t_2} \mid b_{t_2}\right)-\log p_S\left(z_{t_1} \mid z_{t_2}, b_{t_1}, b_{t_2}\right)\right]
 \]</span></p>
-<figure>
-<img src="从Autoencoder到beta-VAE\TD-VAE.png" alt="TD-VAE" /><figcaption aria-hidden="true">TD-VAE</figcaption>
-</figure>
+<img src="/2023/04/24/19-17-24/TD-VAE.png" class="" title="TD-VAE">
 <center>
 图13. TD-VAE 架构的详细概述，做得非常好。（图片来源：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1806.03107">TD-VAE论文</a>）
 </center>
