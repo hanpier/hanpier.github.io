@@ -20,30 +20,32 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"hanpier.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.14.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="https:&#x2F;&#x2F;lilianweng.github.io&#x2F;posts&#x2F;2018-08-12-vae&#x2F;#reparameterization-trick 中文翻译 从Autoencoder到beta-VAEAutoencoder是一个为了使用中间有一个狭窄的bottleneck的神经网络模型重建高维数据而发明的（对于Varaitional Autoencoder可能不是这样的，我们将在后面的章节中详">
+    <meta name="description" content="https:&#x2F;&#x2F;lilianweng.github.io&#x2F;posts&#x2F;2018-08-12-vae&#x2F;#reparameterization-trick 中文翻译 从Autoencoder到beta-VAE Autoencoder是一个为了使用中间有一个狭窄的bottleneck的神经网络模型重建高维数据而发明的（对于Varaitional Autoencoder可能不是这样的，我们将在后面的章">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从Autoencoder到beta-VAE">
 <meta property="og:url" content="https://hanpier.github.io/2023/04/24/19-17-24/index.html">
 <meta property="og:site_name" content="Hanpier&#39;s Blog">
-<meta property="og:description" content="https:&#x2F;&#x2F;lilianweng.github.io&#x2F;posts&#x2F;2018-08-12-vae&#x2F;#reparameterization-trick 中文翻译 从Autoencoder到beta-VAEAutoencoder是一个为了使用中间有一个狭窄的bottleneck的神经网络模型重建高维数据而发明的（对于Varaitional Autoencoder可能不是这样的，我们将在后面的章节中详">
+<meta property="og:description" content="https:&#x2F;&#x2F;lilianweng.github.io&#x2F;posts&#x2F;2018-08-12-vae&#x2F;#reparameterization-trick 中文翻译 从Autoencoder到beta-VAE Autoencoder是一个为了使用中间有一个狭窄的bottleneck的神经网络模型重建高维数据而发明的（对于Varaitional Autoencoder可能不是这样的，我们将在后面的章">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://hanpier.github.io/.io//%E4%BB%8EAutoencoder%E5%88%B0beta-VAE%5Cautoencoder-architecture.png">
-<meta property="og:image" content="https://hanpier.github.io/.io//%E4%BB%8EAutoencoder%E5%88%B0beta-VAE%5Cdenoising-autoencoder-architecture.png">
-<meta property="og:image" content="https://hanpier.github.io/.io//%E4%BB%8EAutoencoder%E5%88%B0beta-VAE%5Ck-sparse-autoencoder.png">
-<meta property="og:image" content="https://hanpier.github.io/.io//%E4%BB%8EAutoencoder%E5%88%B0beta-VAE%5CVAE-graphical-model.png">
-<meta property="og:image" content="https://hanpier.github.io/.io//%E4%BB%8EAutoencoder%E5%88%B0beta-VAE%5Cforward_vs_reversed_KL.png">
-<meta property="og:image" content="https://hanpier.github.io/.io//%E4%BB%8EAutoencoder%E5%88%B0beta-VAE%5Creparameterization-trick.png">
-<meta property="og:image" content="https://hanpier.github.io/.io//%E4%BB%8EAutoencoder%E5%88%B0beta-VAE%5Cvae-gaussian.png">
-<meta property="og:image" content="https://hanpier.github.io/.io//%E4%BB%8EAutoencoder%E5%88%B0beta-VAE%5CVQ-VAE.png">
-<meta property="og:image" content="https://hanpier.github.io/.io//%E4%BB%8EAutoencoder%E5%88%B0beta-VAE%5CVQ-VAE-2.png">
-<meta property="og:image" content="https://hanpier.github.io/.io//%E4%BB%8EAutoencoder%E5%88%B0beta-VAE%5CVQ-VAE-2-algo.png">
-<meta property="og:image" content="https://hanpier.github.io/.io//%E4%BB%8EAutoencoder%E5%88%B0beta-VAE%5CTD-VAE-state-space.png">
-<meta property="og:image" content="https://hanpier.github.io/.io//%E4%BB%8EAutoencoder%E5%88%B0beta-VAE%5CTD-VAE.png">
+<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/autoencoder-architecture.png">
+<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/denoising-autoencoder-architecture.png">
+<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/KL%20divergence.png">
+<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/k-sparse-autoencoder.png">
+<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/VAE-graphical-model.png">
+<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/forward_vs_reversed_KL.png">
+<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/reparameterization-trick.png">
+<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/vae-gaussian.png">
+<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/VQ-VAE.png">
+<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/VQ-VAE-2.png">
+<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/VQ-VAE-2-algo.png">
+<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/TD-VAE-state-space.png">
+<meta property="og:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/TD-VAE.png">
 <meta property="article:published_time" content="2023-04-24T10:17:24.000Z">
-<meta property="article:modified_time" content="2023-04-24T10:47:43.293Z">
+<meta property="article:modified_time" content="2023-04-24T11:19:34.512Z">
 <meta property="article:author" content="Hanpier">
+<meta property="article:tag" content="生成模型">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://hanpier.github.io/.io//%E4%BB%8EAutoencoder%E5%88%B0beta-VAE%5Cautoencoder-architecture.png">
+<meta name="twitter:image" content="https://hanpier.github.io/2023/04/24/19-17-24/%E4%BB%8EAutoencoder%E5%88%B0beta-VAE/autoencoder-architecture.png">
 
 
 <link rel="canonical" href="https://hanpier.github.io/2023/04/24/19-17-24/">
@@ -153,7 +155,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%8EAutoencoder%E5%88%B0beta-VAE"><span class="nav-text">从Autoencoder到beta-VAE</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Notions"><span class="nav-text">Notions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Autoencoder"><span class="nav-text">Autoencoder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Denoising-Autoencoder"><span class="nav-text">Denoising Autoencoder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sparse-Autoencoder"><span class="nav-text">Sparse Autoencoder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Contractive-Autoencoder"><span class="nav-text">Contractive Autoencoder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VAE-Variational-Autoencoder"><span class="nav-text">VAE: Variational Autoencoder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Loss-Function-ELBO"><span class="nav-text">Loss Function: ELBO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reparameterization-Trick"><span class="nav-text">Reparameterization Trick</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Beta-VAE"><span class="nav-text">Beta-VAE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VQ-VAE-and-VQ-VAE-2"><span class="nav-text">VQ-VAE and VQ-VAE-2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TD-VAE"><span class="nav-text">TD-VAE</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%8Eautoencoder%E5%88%B0beta-vae"><span class="nav-text">从Autoencoder到beta-VAE</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#notions"><span class="nav-text">Notions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#autoencoder"><span class="nav-text">Autoencoder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#denoising-autoencoder"><span class="nav-text">Denoising Autoencoder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sparse-autoencoder"><span class="nav-text">Sparse Autoencoder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#contractive-autoencoder"><span class="nav-text">Contractive Autoencoder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vae-variational-autoencoder"><span class="nav-text">VAE: Variational Autoencoder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#loss-function-elbo"><span class="nav-text">Loss Function: ELBO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reparameterization-trick"><span class="nav-text">Reparameterization Trick</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#beta-vae"><span class="nav-text">Beta-VAE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vq-vae-and-vq-vae-2"><span class="nav-text">VQ-VAE and VQ-VAE-2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#td-vae"><span class="nav-text">TD-VAE</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -174,12 +176,12 @@
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -248,7 +250,16 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2023-04-24 19:17:24 / 修改时间：19:47:43" itemprop="dateCreated datePublished" datetime="2023-04-24T19:17:24+09:00">2023-04-24</time>
+      <time title="创建时间：2023-04-24 19:17:24 / 修改时间：20:19:34" itemprop="dateCreated datePublished" datetime="2023-04-24T19:17:24+09:00">2023-04-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a>
+        </span>
     </span>
 
   
@@ -261,226 +272,351 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p><a target="_blank" rel="noopener" href="https://lilianweng.github.io/posts/2018-08-12-vae/#reparameterization-trick">https://lilianweng.github.io/posts/2018-08-12-vae/#reparameterization-trick</a> 中文翻译</p>
-<h1 id="从Autoencoder到beta-VAE"><a href="#从Autoencoder到beta-VAE" class="headerlink" title="从Autoencoder到beta-VAE"></a>从Autoencoder到beta-VAE</h1><p>Autoencoder是一个为了使用中间有一个狭窄的bottleneck的神经网络模型重建高维数据而发明的（对于Varaitional Autoencoder可能不是这样的，我们将在后面的章节中详细研究它）。一个很好的副产品是降维：bottleneck层捕获了压缩的潜在编码。这样的低维表示可以用作各种应用（即搜索中的嵌入向量），帮助数据压缩，或者揭示潜在的数据生成因素。</p>
-<h2 id="Notions"><a href="#Notions" class="headerlink" title="Notions"></a>Notions</h2><table>
+        <p>https://lilianweng.github.io/posts/2018-08-12-vae/#reparameterization-trick 中文翻译</p>
+<h1 id="从autoencoder到beta-vae">从Autoencoder到beta-VAE</h1>
+<p>Autoencoder是一个为了使用中间有一个狭窄的bottleneck的神经网络模型重建高维数据而发明的（对于Varaitional Autoencoder可能不是这样的，我们将在后面的章节中详细研究它）。一个很好的副产品是降维：bottleneck层捕获了压缩的潜在编码。这样的低维表示可以用作各种应用（即搜索中的嵌入向量），帮助数据压缩，或者揭示潜在的数据生成因素。</p>
+<h2 id="notions">Notions</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 66%" />
+</colgroup>
 <thead>
-<tr>
+<tr class="header">
 <th>符号</th>
 <th>意义</th>
 </tr>
 </thead>
-<tbody><tr>
-<td>$\mathcal{D}$</td>
-<td>数据集，$\mathcal{D}&#x3D;\left{\mathbf{x}^{(1)}, \mathbf{x}^{(2)}, \ldots, \mathbf{x}^{(n)}\right}$,包括$n$个数据样本；$</td>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\mathcal{D}\)</span></td>
+<td>数据集，<span class="math inline">\(\mathcal{D}=\left\{\mathbf{x}^{(1)}, \mathbf{x}^{(2)}, \ldots, \mathbf{x}^{(n)}\right\}\)</span>,包括<span class="math inline">\(n\)</span>个数据样本；<span class="math inline">\(\mid \mathcal{D}\mid=n\)</span>.</td>
 </tr>
-<tr>
-<td>$\mathbf{x^{i}}$</td>
-<td>每个数据点是一个$d$维的向量，$\mathbf{x}^{(i)}&#x3D;\left[x_1^{(i)}, x_2^{(i)}, \ldots, x_d^{(i)}\right]$.</td>
+<tr class="even">
+<td><span class="math inline">\(\mathbf{x^{i}}\)</span></td>
+<td>每个数据点是一个<span class="math inline">\(d\)</span>维的向量，<span class="math inline">\(\mathbf{x}^{(i)}=\left[x_1^{(i)}, x_2^{(i)}, \ldots, x_d^{(i)}\right]\)</span>.</td>
 </tr>
-<tr>
-<td>$\mathbf{x}$</td>
-<td>数据集中的一个样本，$\mathbf{x}\in\mathcal{D}$.</td>
+<tr class="odd">
+<td><span class="math inline">\(\mathbf{x}\)</span></td>
+<td>数据集中的一个样本，<span class="math inline">\(\mathbf{x}\in\mathcal{D}\)</span>.</td>
 </tr>
-<tr>
-<td>$\mathbf{x^{\prime}}$</td>
-<td>$\mathbf{x}$的重建版本</td>
+<tr class="even">
+<td><span class="math inline">\(\mathbf{x^{\prime}}\)</span></td>
+<td><span class="math inline">\(\mathbf{x}\)</span>的重建版本</td>
 </tr>
-<tr>
-<td>$\tilde{\mathbf{x}}$</td>
-<td>$\mathbf{x}$的损坏版本</td>
+<tr class="odd">
+<td><span class="math inline">\(\tilde{\mathbf{x}}\)</span></td>
+<td><span class="math inline">\(\mathbf{x}\)</span>的损坏版本</td>
 </tr>
-<tr>
-<td>$\mathbf{z}$</td>
+<tr class="even">
+<td><span class="math inline">\(\mathbf{z}\)</span></td>
 <td>bottleneck层学到的压缩编码</td>
 </tr>
-<tr>
-<td>$a_j^{(l)}$</td>
-<td>第 $l$ 个隐藏层中第 $j$个神经元的激活函数</td>
+<tr class="odd">
+<td><span class="math inline">\(a_j^{(l)}\)</span></td>
+<td>第 <span class="math inline">\(l\)</span> 个隐藏层中第 <span class="math inline">\(j\)</span>个神经元的激活函数</td>
 </tr>
-<tr>
-<td>$g_\phi(.)$</td>
-<td>以$\phi$为参数的<em><strong>编码</strong></em>函数</td>
+<tr class="even">
+<td><span class="math inline">\(g_\phi(.)\)</span></td>
+<td>以<span class="math inline">\(\phi\)</span>为参数的<strong><em>编码</em></strong>函数</td>
 </tr>
-<tr>
-<td>$f_\theta(.)$</td>
-<td>以$\theta$为参数的<em><strong>解码</strong></em>函数</td>
+<tr class="odd">
+<td><span class="math inline">\(f_\theta(.)\)</span></td>
+<td>以<span class="math inline">\(\theta\)</span>为参数的<strong><em>解码</em></strong>函数</td>
 </tr>
-<tr>
-<td>$q_{\phi}\mathbf{(z</td>
-<td>x)}$</td>
+<tr class="even">
+<td><span class="math inline">\(q_{\phi}\mathbf{(z\mid x)}\)</span></td>
+<td>估计后验概率函数，也称为<strong><em>概率编码器</em></strong>.</td>
 </tr>
-<tr>
-<td>$p_{\theta}\mathbf{(z</td>
-<td>x})$</td>
+<tr class="odd">
+<td><span class="math inline">\(p_{\theta}\mathbf{(z\mid x})\)</span></td>
+<td>给定潜在代码生成真实数据样本的可能性，也称为<strong><em>概率解码器</em></strong>.</td>
 </tr>
-</tbody></table>
-<h2 id="Autoencoder"><a href="#Autoencoder" class="headerlink" title="Autoencoder"></a>Autoencoder</h2><p><em><strong>Autoencoder</strong></em>是一种神经网络，旨在以无监督的方式学习一个恒等函数，以重建原始输入，同时在这个过程中压缩数据，从而发现一个更有效和压缩的表示。这个想法起源于20世纪80年代，后来被<a target="_blank" rel="noopener" href="https://www.science.org/doi/full/10.1126/science.1127647">Hinton&amp;Salakhutdinov, 2006</a>的开创性论文所推广。</p>
+</tbody>
+</table>
+<h2 id="autoencoder">Autoencoder</h2>
+<p><strong><em>Autoencoder</em></strong>是一种神经网络，旨在以无监督的方式学习一个恒等函数，以重建原始输入，同时在这个过程中压缩数据，从而发现一个更有效和压缩的表示。这个想法起源于20世纪80年代，后来被<a target="_blank" rel="noopener" href="https://www.science.org/doi/full/10.1126/science.1127647">Hinton&amp;Salakhutdinov, 2006</a>的开创性论文所推广。</p>
 <p>它由两个网络组成：</p>
 <ul>
-<li><p><em><strong>Encoder network</strong></em>：它将原始的高维输入转变成成潜在的低维编码。输入的尺寸比输出的尺寸大。</p>
-</li>
-<li><p><em><strong>Decoder network</strong></em>：解码器网络从编码中恢复数据，可能会有越来越大的输出层。</p>
-</li>
+<li><p><strong><em>Encoder network</em></strong>：它将原始的高维输入转变成成潜在的低维编码。输入的尺寸比输出的尺寸大。</p></li>
+<li><p><strong><em>Decoder network</em></strong>：解码器网络从编码中恢复数据，可能会有越来越大的输出层。</p></li>
 </ul>
-<p><img src="/.io//%E4%BB%8EAutoencoder%E5%88%B0beta-VAE%5Cautoencoder-architecture.png" alt="autoencoder-architecture">  </p>
-<center>图1. 自动编码器模型结构的说明</center>
-
+<figure>
+<img src="从Autoencoder到beta-VAE\autoencoder-architecture.png" alt="autoencoder-architecture" /><figcaption aria-hidden="true">autoencoder-architecture</figcaption>
+</figure>
+<center>
+图1. 自动编码器模型结构的说明
+</center>
 <p>编码器网络本质上完成了降维，就像我们如何使用主成分分析（PCA）或矩阵分解（MF)一样。此外，自动编码器针对编码的数据重建进行了显式优化。一个好的中间表示不仅可以捕获潜在变量，而且有利于全面的解压过程。</p>
-<p>该模型包含以$\phi$为参数的编码器函数$g(.)$，并有以$\theta$为参数的解码器函数$f(.)$。在bottleneck层为输入$\mathbf{x}$学习的低维编码是$\mathbf{z}&#x3D;g_\phi(\mathbf{x})$，重建的输入是$\mathbf{x}^{\prime}&#x3D;f_\theta\left(g_\phi(\mathbf{x})\right)$。</p>
-<p>参数$(\theta, \phi)$被一起学习，以输出一个与原始输入相同的重建数据样本，$\mathbf{x} \approx f_\theta\left(g_\phi(\mathbf{x})\right)$，或者换句话说，学习恒等函数。有各种指标来量化两个向量之间的差异，例如激活函数为sigmoid时的交叉熵，或者简单的MSE损失：<br>$$<br>L_{\mathrm{AE}}(\theta, \phi)&#x3D;\frac{1}{n} \sum_{i&#x3D;1}^n\left(\mathbf{x}^{(i)}-f_\theta\left(g_\phi\left(\mathbf{x}^{(i)}\right)\right)\right)^2<br>$$</p>
-<h2 id="Denoising-Autoencoder"><a href="#Denoising-Autoencoder" class="headerlink" title="Denoising Autoencoder"></a>Denoising Autoencoder</h2><p>由于autoencoder学习恒等函数，当网络参数多于数据点时，我们面临“过度拟合”的风险。</p>
-<p>为了避免过度拟合并提高鲁棒性，<strong>Denoising Autoencoder</strong>(Vincent et al. 2008) 提出了对基本autoencoder的修改。通过以随机方式向输入向量的某些值添加噪声或掩盖输入向量的某些值来部分破坏输入，$\tilde{\mathbf{x}} \sim \mathcal{M}<em>{\mathcal{D}}(\tilde{\mathbf{x}} \mid \mathbf{x})$。然后训练模型以恢复原始输入（注意：不是损坏的输入）。<br>$$<br>\begin{aligned}<br>\tilde{\mathbf{x}}^{(i)} &amp; \sim \mathcal{M}</em>{\mathcal{D}}\left(\tilde{\mathbf{x}}^{(i)} \mid \mathbf{x}^{(i)}\right) \<br>L_{\mathrm{DAE}}(\theta, \phi) &amp; &#x3D;\frac{1}{n} \sum_{i&#x3D;1}^n\left(\mathbf{x}^{(i)}-f_\theta\left(g_\phi\left(\tilde{\mathbf{x}}^{(i)}\right)\right)\right)^2<br>\end{aligned}<br>$$<br>其中$\mathcal{M}_{\mathcal{D}}$定义了从真实数据样本到噪声或者损坏样本的映射。</p>
-<p><img src="/.io//%E4%BB%8EAutoencoder%E5%88%B0beta-VAE%5Cdenoising-autoencoder-architecture.png" alt="denoising-autoencoder-architecture"></p>
-<center>图2. 去噪自动编码器模型结构的说明</center>
-
-<p>这种设计的动机是人类可以很容易地识别一个物体或场景，即使视图被部分遮挡或损坏。为了 “修复 “部分被破坏的输入，denoising autoencoder码器必须发现和捕捉输入的各个维度之间的关系，以便推断出丢失的部分。</p>
+<p>该模型包含以<span class="math inline">\(\phi\)</span>为参数的编码器函数<span class="math inline">\(g(.)\)</span>，并有以<span class="math inline">\(\theta\)</span>为参数的解码器函数<span class="math inline">\(f(.)\)</span>。在bottleneck层为输入<span class="math inline">\(\mathbf{x}\)</span>学习的低维编码是<span class="math inline">\(\mathbf{z}=g_\phi(\mathbf{x})\)</span>，重建的输入是<span class="math inline">\(\mathbf{x}^{\prime}=f_\theta\left(g_\phi(\mathbf{x})\right)\)</span>。</p>
+<p>参数<span class="math inline">\((\theta, \phi)\)</span>被一起学习，以输出一个与原始输入相同的重建数据样本，<span class="math inline">\(\mathbf{x} \approx f_\theta\left(g_\phi(\mathbf{x})\right)\)</span>，或者换句话说，学习恒等函数。有各种指标来量化两个向量之间的差异，例如激活函数为sigmoid时的交叉熵，或者简单的MSE损失： <span class="math display">\[
+L_{\mathrm{AE}}(\theta, \phi)=\frac{1}{n} \sum_{i=1}^n\left(\mathbf{x}^{(i)}-f_\theta\left(g_\phi\left(\mathbf{x}^{(i)}\right)\right)\right)^2
+\]</span></p>
+<h2 id="denoising-autoencoder">Denoising Autoencoder</h2>
+<p>由于autoencoder学习恒等函数，当网络参数多于数据点时，我们面临“过度拟合”的风险。</p>
+<p>为了避免过度拟合并提高鲁棒性，<strong>Denoising Autoencoder</strong>(Vincent et al. 2008) 提出了对基本autoencoder的修改。通过以随机方式向输入向量的某些值添加噪声或掩盖输入向量的某些值来部分破坏输入，<span class="math inline">\(\tilde{\mathbf{x}} \sim \mathcal{M}_{\mathcal{D}}(\tilde{\mathbf{x}} \mid \mathbf{x})\)</span>。然后训练模型以恢复原始输入（注意：不是损坏的输入）。 <span class="math display">\[
+\begin{aligned}
+\tilde{\mathbf{x}}^{(i)} &amp; \sim \mathcal{M}_{\mathcal{D}}\left(\tilde{\mathbf{x}}^{(i)} \mid \mathbf{x}^{(i)}\right) \\
+L_{\mathrm{DAE}}(\theta, \phi) &amp; =\frac{1}{n} \sum_{i=1}^n\left(\mathbf{x}^{(i)}-f_\theta\left(g_\phi\left(\tilde{\mathbf{x}}^{(i)}\right)\right)\right)^2
+\end{aligned}
+\]</span> 其中<span class="math inline">\(\mathcal{M}_{\mathcal{D}}\)</span>定义了从真实数据样本到噪声或者损坏样本的映射。</p>
+<figure>
+<img src="从Autoencoder到beta-VAE\denoising-autoencoder-architecture.png" alt="denoising-autoencoder-architecture" /><figcaption aria-hidden="true">denoising-autoencoder-architecture</figcaption>
+</figure>
+<center>
+图2. 去噪自动编码器模型结构的说明
+</center>
+<p>这种设计的动机是人类可以很容易地识别一个物体或场景，即使视图被部分遮挡或损坏。为了"修复 "部分被破坏的输入，denoising autoencoder码器必须发现和捕捉输入的各个维度之间的关系，以便推断出丢失的部分。</p>
 <p>对于具有高冗余度的高维输入，如图像，该模型可能依赖于从许多输入维度的组合中收集的根据来恢复去噪版本，而不是过度拟合一个维度。这为学习稳健的潜在表征奠定了良好的基础。</p>
-<p>噪声是由一个随机映射控制的$\mathcal{M}_\mathcal{D}(\mathbf{\tilde{x}|x})$，而且它不是特定于某一类型的破坏过程（即掩蔽噪声、高斯噪声、盐和胡椒噪声等）。当然，破坏过程可以配备先验知识。</p>
-<p>在原始DAE论文的实验中，噪声是这样应用的：随机选择固定比例的输入维度，并将其值强制为0。 听起来很像dropout，对吗？嗯，去噪自动编码器是在2008年提出的，比dropout论文早4年<a href="chrome-extension://ikhdkkncnoglghljlkmcimlnlhkeamad/pdf-viewer/web/viewer.html?file=https%3A%2F%2Fwww.cs.toronto.edu%2F~hinton%2Fabsps%2FJMLRdropout.pdf#=&zoom=130">（Hinton, et al. 2012）</a>。</p>
-<h2 id="Sparse-Autoencoder"><a href="#Sparse-Autoencoder" class="headerlink" title="Sparse Autoencoder"></a>Sparse Autoencoder</h2><p><strong>Sparse Autoencoder</strong>对隐藏单元的激活应用了一个 “稀疏 “约束，以避免过度拟合并提高鲁棒性。它迫使模型只有少量的隐藏单元同时被激活，或者换句话说，一个隐藏神经元应该在大部分时间内不被激活。</p>
+<p>噪声是由一个随机映射控制的<span class="math inline">\(\mathcal{M}_\mathcal{D}(\mathbf{\tilde{x}|x})\)</span>，而且它不是特定于某一类型的破坏过程（即掩蔽噪声、高斯噪声、盐和胡椒噪声等）。当然，破坏过程可以配备先验知识。</p>
+<p>在原始DAE论文的实验中，噪声是这样应用的：随机选择固定比例的输入维度，并将其值强制为0。 听起来很像dropout，对吗？嗯，去噪自动编码器是在2008年提出的，比dropout论文早4年<a href="chrome-extension://ikhdkkncnoglghljlkmcimlnlhkeamad/pdf-viewer/web/viewer.html?file=https%3A%2F%2Fwww.cs.toronto.edu%2F~hinton%2Fabsps%2FJMLRdropout.pdf#=&amp;zoom=130">（Hinton, et al. 2012）</a>。</p>
+<h2 id="sparse-autoencoder">Sparse Autoencoder</h2>
+<p><strong>Sparse Autoencoder</strong>对隐藏单元的激活应用了一个“稀疏”约束，以避免过度拟合并提高鲁棒性。它迫使模型只有少量的隐藏单元同时被激活，或者换句话说，一个隐藏神经元应该在大部分时间内不被激活。</p>
 <p>回想一下，常见的激活函数包括 sigmoid、tanh、relu、leaky relu 等。当值接近 1 时激活神经元，当值接近 0 时神经元失活。</p>
-<p>假设在第$l$个隐藏层中有$s_l$个神经元，该层中第$j$个神经元的激活函数被标记为$a_j^{l}(.),j&#x3D;1,…,s_l$。该神经元的激活比例</p>
-<p>$\hat{\rho_j}$应该是一个小数$\rho$，被称为<em>稀疏参数</em>；常见的配置是$\rho&#x3D;0.05$。</p>
-<p>这个公式是用来计算第$l$个隐藏层中第$j$个神经元的激活比例$\hat{\rho_j}$的。它是通过对$n$个输入样本的激活函数$a_j^{(l)}$进行求平均得到的。其中，$x^{(i)}$是第$i$个输入样本，$n$是输入样本的数量。由于这个平均值通常会近似于稀疏参数$\rho$，因此可以用这个平均值作为$\hat{\rho_j}$的近似值。<br>$$<br>\hat{\rho}<em>j^l&#x3D;\frac{1}{n}\sum</em>{i&#x3D;1}^n[a_j^{(l)}x(^{(i)})]\approx\rho<br>$$<br>这个约束是通过在损失函数中加入一个惩罚项来实现的。KL-散度$D_{KL}$测量两个伯努利分布之间的差异，一个是平均值$\rho$，另一个是平均值$\hat{\rho}<em>j^{(l)}$。超参数$\beta$控制控制我们想要对稀疏性损失应用的惩罚强度。<br>$$<br>\begin{aligned}<br>L</em>{\mathrm{SAE}}(\theta) &amp; &#x3D;L(\theta)+\beta \sum_{l&#x3D;1}^L \sum_{j&#x3D;1}^{s_l} D_{\mathrm{KL}}\left(\rho | \hat{\rho}<em>j^{(l)}\right) \<br>&amp; &#x3D;L(\theta)+\beta \sum</em>{l&#x3D;1}^L \sum_{j&#x3D;1}^{s_l} \rho \log \frac{\rho}{\hat{\rho}_j^{(l)}}+(1-\rho) \log \frac{1-\rho}{1-\hat{\rho}_j^{(l)}}<br>\end{aligned}<br>$$</p>
-<p>![KL divergence](从Autoencoder到beta-VAE\KL divergence.png)<br>$$<br>\text{图3. 均值为}\rho&#x3D;0.5\text{的伯努利分布与均值为}0\le\hat{\rho}\le1\text{的伯努利分布之间的KL散度}<br>$$</p>
-<p><strong>$k-$Sparse Autoencoder</strong></p>
-<p>在**$k-$Sparse Autoencoder**<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1312.5663">（Makhzani和Frey，2013）</a>中，通过在具有线性激活函数的bottleneck层中只保留前$k$个最高的激活来强制执行稀疏性。首先，我们通过编码器网络运行前馈，得到压缩后的代码： $\mathbf{z&#x3D;g(x)}$。对代码向量$\mathbf{z}$中的值进行排序，只保留最大的$k$个值，而其他神经元被设置为0。现在我们有了一个稀疏化的编码： $\mathbf{z’{&#x3D;Sparsify(z)}}$。计算输出和稀疏化代码的损失、<br>$\mathbf{L&#x3D;|x-f(z’)|_2^2}$。而且，反向传播只经过前$k$个被激活的隐藏单元！</p>
-<p><img src="/.io//%E4%BB%8EAutoencoder%E5%88%B0beta-VAE%5Ck-sparse-autoencoder.png" alt="k-sparse-autoencoder"></p>
-<center>图4. 从有1000个隐藏单元的MNIST中学习的不同稀疏度k的自动编码器的过滤器（图片来源：[Makhzani和Frey，2013年](https://arxiv.org/abs/1312.5663)）</center>
-
-<h2 id="Contractive-Autoencoder"><a href="#Contractive-Autoencoder" class="headerlink" title="Contractive Autoencoder"></a>Contractive Autoencoder</h2><p>与sparse autoencoder类似，<strong>Contractive Autoencoder</strong>（<a href="chrome-extension://ikhdkkncnoglghljlkmcimlnlhkeamad/pdf-viewer/web/viewer.html?file=http%3A%2F%2Fwww.icml-2011.org%2Fpapers%2F455_icmlpaper.pdf#=&zoom=130">Rifai, et al, 2011</a>）鼓励学习到的表征保持在收缩空间中，以获得更好的鲁棒性。</p>
-<p>它在损失函数中增加了一个项，以惩罚对输入过于敏感的表示，从而提高对训练数据点周围的小扰动的稳健性。敏感性是由编码器激活的雅各布矩阵对输入的Frobenius准则来衡量的：<br>$$<br>\left|J_f(\mathbf{x})\right|<em>F^2&#x3D;\sum</em>{i j}\left(\frac{\partial h_j(\mathbf{x})}{\partial x_i}\right)^2<br>$$<br>其中$h_j$是压缩代码 $z&#x3D;f(x)$ 中的一个单元输出。</p>
+<p>假设在第<span class="math inline">\(l\)</span>个隐藏层中有<span class="math inline">\(s_l\)</span>个神经元，该层中第<span class="math inline">\(j\)</span>个神经元的激活函数被标记为<span class="math inline">\(a_j^{l}(.),j=1,...,s_l\)</span>。该神经元的激活比例<span class="math inline">\(\hat{\rho_j}\)</span>应该是一个小数<span class="math inline">\(\rho\)</span>，被称为<em>稀疏参数</em>；常见的配置是<span class="math inline">\(\rho=0.05\)</span>。</p>
+<p>这个公式是用来计算第<span class="math inline">\(l\)</span>个隐藏层中第<span class="math inline">\(j\)</span>个神经元的激活比例<span class="math inline">\(\hat{\rho_j}\)</span>的。它是通过对<span class="math inline">\(n\)</span>个输入样本的激活函数<span class="math inline">\(a_j^{(l)}\)</span>进行求平均得到的。其中，<span class="math inline">\(x^{(i)}\)</span>是第<span class="math inline">\(i\)</span>个输入样本，<span class="math inline">\(n\)</span>是输入样本的数量。由于这个平均值通常会近似于稀疏参数<span class="math inline">\(\rho\)</span>，因此可以用这个平均值作为<span class="math inline">\(\hat{\rho_j}\)</span>的近似值。 <span class="math display">\[
+\hat{\rho}_j^l=\frac{1}{n}\sum_{i=1}^n[a_j^{(l)}x(^{(i)})]\approx\rho
+\]</span> 这个约束是通过在损失函数中加入一个惩罚项来实现的。KL-散度<span class="math inline">\(D_{KL}\)</span>测量两个伯努利分布之间的差异，一个是平均值<span class="math inline">\(\rho\)</span>，另一个是平均值<span class="math inline">\(\hat{\rho}_j^{(l)}\)</span>。超参数<span class="math inline">\(\beta\)</span>控制控制我们想要对稀疏性损失应用的惩罚强度。 <span class="math display">\[
+\begin{aligned}
+L_{\mathrm{SAE}}(\theta) &amp; =L(\theta)+\beta \sum_{l=1}^L \sum_{j=1}^{s_l} D_{\mathrm{KL}}\left(\rho \| \hat{\rho}_j^{(l)}\right) \\
+&amp; =L(\theta)+\beta \sum_{l=1}^L \sum_{j=1}^{s_l} \rho \log \frac{\rho}{\hat{\rho}_j^{(l)}}+(1-\rho) \log \frac{1-\rho}{1-\hat{\rho}_j^{(l)}}
+\end{aligned}
+\]</span></p>
+<p><img src="从Autoencoder到beta-VAE\KL%20divergence.png" alt="KL divergence" /> <span class="math display">\[
+\text{图3. 均值为}\rho=0.5\text{的伯努利分布与均值为}0\le\hat{\rho}\le1\text{的伯努利分布之间的KL散度}
+\]</span></p>
+<p><strong><span class="math inline">\(k-\)</span>Sparse Autoencoder</strong></p>
+<p>在<strong><span class="math inline">\(k-\)</span>Sparse Autoencoder</strong><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1312.5663">（Makhzani和Frey，2013）</a>中，通过在具有线性激活函数的bottleneck层中只保留前<span class="math inline">\(k\)</span>个最高的激活来强制执行稀疏性。首先，我们通过编码器网络运行前馈，得到压缩后的代码： <span class="math inline">\(\mathbf{z=g(x)}\)</span>。对代码向量<span class="math inline">\(\mathbf{z}\)</span>中的值进行排序，只保留最大的<span class="math inline">\(k\)</span>个值，而其他神经元被设置为0。现在我们有了一个稀疏化的编码： <span class="math inline">\(\mathbf{z&#39;{=Sparsify(z)}}\)</span>。计算输出和稀疏化代码的损失、 <span class="math inline">\(\mathbf{L=|x-f(z&#39;)|_2^2}\)</span>。而且，反向传播只经过前<span class="math inline">\(k\)</span>个被激活的隐藏单元！</p>
+<figure>
+<img src="从Autoencoder到beta-VAE\k-sparse-autoencoder.png" alt="k-sparse-autoencoder" /><figcaption aria-hidden="true">k-sparse-autoencoder</figcaption>
+</figure>
+<center>
+图4. 从有1000个隐藏单元的MNIST中学习的不同稀疏度k的自动编码器的过滤器（图片来源：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1312.5663">Makhzani和Frey，2013年</a>）
+</center>
+<h2 id="contractive-autoencoder">Contractive Autoencoder</h2>
+<p>与sparse autoencoder类似，<strong>Contractive Autoencoder</strong>（<a href="chrome-extension://ikhdkkncnoglghljlkmcimlnlhkeamad/pdf-viewer/web/viewer.html?file=http%3A%2F%2Fwww.icml-2011.org%2Fpapers%2F455_icmlpaper.pdf#=&amp;zoom=130">Rifai, et al, 2011</a>）鼓励学习到的表征保持在收缩空间中，以获得更好的鲁棒性。</p>
+<p>它在损失函数中增加了一个项，以惩罚对输入过于敏感的表示，从而提高对训练数据点周围的小扰动的稳健性。敏感性是由编码器激活的雅各布矩阵对输入的Frobenius准则来衡量的： <span class="math display">\[
+\left\|J_f(\mathbf{x})\right\|_F^2=\sum_{i j}\left(\frac{\partial h_j(\mathbf{x})}{\partial x_i}\right)^2
+\]</span> 其中<span class="math inline">\(h_j\)</span>是压缩代码 <span class="math inline">\(z=f(x)\)</span> 中的一个单元输出。</p>
 <p>这个惩罚项是所学编码相对于输入维度的所有偏导数的平方之和。作者声称，根据经验，这个惩罚项被发现可以刻画出一个对应于低维非线性流形的表征，同时对流形正交的多数方向保持不变。</p>
-<h2 id="VAE-Variational-Autoencoder"><a href="#VAE-Variational-Autoencoder" class="headerlink" title="VAE: Variational Autoencoder"></a>VAE: Variational Autoencoder</h2><p>变量自动编码器（<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1312.6114">Kingma &amp; Welling, 2014</a>）的想法，简称VAE，实际上与上述所有自动编码器模型不太相似，但深深扎根于变分贝叶斯和图模型的方法。</p>
-<p>我们不是把输入映射成一个固定的向量，而是要把它映射成一个分布。让我们把这个分布标记为$p_\theta$，以$\theta$为参数。数据输入$x$和潜在编码向量$z$之间的关系可以完全定义为：</p>
+<h2 id="vae-variational-autoencoder">VAE: Variational Autoencoder</h2>
+<p>变量自动编码器（<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1312.6114">Kingma &amp; Welling, 2014</a>）的想法，简称VAE，实际上与上述所有自动编码器模型不太相似，但深深扎根于变分贝叶斯和图模型的方法。</p>
+<p>我们不是把输入映射成一个固定的向量，而是要把它映射成一个分布。让我们把这个分布标记为<span class="math inline">\(p_\theta\)</span>，以<span class="math inline">\(\theta\)</span>为参数。数据输入<span class="math inline">\(x\)</span>和潜在编码向量<span class="math inline">\(z\)</span>之间的关系可以完全定义为：</p>
 <ul>
-<li><p>先验 $p_\theta(z)$</p>
-</li>
-<li><p>似然 $p_\theta(x|z)$</p>
-</li>
-<li><p>后验 $p_\theta(z|x)$</p>
-</li>
+<li><p>先验 <span class="math inline">\(p_\theta(z)\)</span></p></li>
+<li><p>似然 <span class="math inline">\(p_\theta(x|z)\)</span></p></li>
+<li><p>后验 <span class="math inline">\(p_\theta(z|x)\)</span></p></li>
 </ul>
-<p>假设我们知道这个分布的真实参数$θ^*$。为了生成一个看起来像真实数据点$x^{(i)}$的样本，我们遵循以下步骤：</p>
-<ol>
-<li>首先，从先验分布$p_{\theta^*}(z)$中采样 $z^{(i)}$。</li>
-<li>然后从条件分布 $p_{θ^∗}(x|z&#x3D;z^{(i)})$ 生成值 $x^{(i)}$。</li>
+<p>假设我们知道这个分布的真实参数<span class="math inline">\(θ^*\)</span>。为了生成一个看起来像真实数据点<span class="math inline">\(x^{(i)}\)</span>的样本，我们遵循以下步骤：</p>
+<ol type="1">
+<li>首先，从先验分布<span class="math inline">\(p_{\theta^*}(z)\)</span>中采样 <span class="math inline">\(z^{(i)}\)</span>。</li>
+<li>然后从条件分布 <span class="math inline">\(p_{θ^∗}(x|z=z^{(i)})\)</span> 生成值 <span class="math inline">\(x^{(i)}\)</span>。</li>
 </ol>
-<p>最佳参数$θ^∗$是使生成真实数据样本的概率最大化的参数：<br>$$<br>\theta^*&#x3D;\arg \max <em>\theta \prod</em>{i&#x3D;1}^n p_\theta\left(\mathbf{x}^{(i)}\right)<br>$$<br>通常我们使用对数概率将 RHS 上的乘积转换为总和：<br>$$<br>\theta^*&#x3D;\arg \max <em>\theta \sum</em>{i&#x3D;1}^n \log p_\theta\left(\mathbf{x}^{(i)}\right)<br>$$<br>$p_\theta\left(\mathbf{x}^{(i)}\right)$ 是在参数 $\theta$ 下生成数据点 $\mathbf{x}^{(i)}$ 的概率密度函数值。在 VAE 中，我们希望最大化所有数据点的生成概率密度函数的乘积，从而找到最优的参数 $\theta^*$。所以，该公式就是要求最大化所有数据点的生成概率密度函数的乘积，以找到最优的参数 $\theta^*$。</p>
-<p>现在让我们更新这个方程，以更好地展示数据生成过程，从而涉及编码矢量。<br>$$<br>p_\theta\left(\mathbf{x}^{(i)}\right)&#x3D;\int p_\theta\left(\mathbf{x}^{(i)} \mid \mathbf{z}\right) p_\theta(\mathbf{z}) d \mathbf{z}<br>$$<br>不幸的是，按照这种方式计算 $p_\theta\left(\mathbf{x}^{(i)}\right)$ 是非常昂贵的，因为要检查所有可能的 $\mathbf{z}$ 值并将它们相加。为了缩小值空间以便更快地进行搜索，我们想引入一个新的近似函数，用于输出给定输入 $\mathbf{x}$ 的可能编码，即 $q_\phi(\mathbf{z} \mid \mathbf{x})$，由参数 $\phi$ 参数化。</p>
-<p><img src="/.io//%E4%BB%8EAutoencoder%E5%88%B0beta-VAE%5CVAE-graphical-model.png" alt="VAE-graphical-model"><br>$$<br>\text{图5. 变分自编码器中涉及的图形模型。实线表示生成分布}:p_\theta(.)，\text{虚线表示后验分布}:q_\phi(\mathbf{z}\mid \mathbf{x})\text{以近似难以计算的后验}:p_\theta(\mathbf{z} \mid \mathbf{x})。<br>$$<br>现在这个结构看起来很像一个autoencoder：</p>
+<p>最佳参数<span class="math inline">\(θ^∗\)</span>是使生成真实数据样本的概率最大化的参数： <span class="math display">\[
+\theta^*=\arg \max _\theta \prod_{i=1}^n p_\theta\left(\mathbf{x}^{(i)}\right)
+\]</span> 通常我们使用对数概率将 RHS 上的乘积转换为总和： <span class="math display">\[
+\theta^*=\arg \max _\theta \sum_{i=1}^n \log p_\theta\left(\mathbf{x}^{(i)}\right)
+\]</span> <span class="math inline">\(p_\theta\left(\mathbf{x}^{(i)}\right)\)</span> 是在参数 <span class="math inline">\(\theta\)</span> 下生成数据点 <span class="math inline">\(\mathbf{x}^{(i)}\)</span> 的概率密度函数值。在 VAE 中，我们希望最大化所有数据点的生成概率密度函数的乘积，从而找到最优的参数 <span class="math inline">\(\theta^*\)</span>。所以，该公式就是要求最大化所有数据点的生成概率密度函数的乘积，以找到最优的参数 <span class="math inline">\(\theta^*\)</span>。</p>
+<p>现在让我们更新这个方程，以更好地展示数据生成过程，从而涉及编码矢量。 <span class="math display">\[
+p_\theta\left(\mathbf{x}^{(i)}\right)=\int p_\theta\left(\mathbf{x}^{(i)} \mid \mathbf{z}\right) p_\theta(\mathbf{z}) d \mathbf{z}
+\]</span> 不幸的是，按照这种方式计算 <span class="math inline">\(p_\theta\left(\mathbf{x}^{(i)}\right)\)</span> 是非常昂贵的，因为要检查所有可能的 <span class="math inline">\(\mathbf{z}\)</span> 值并将它们相加。为了缩小值空间以便更快地进行搜索，我们想引入一个新的近似函数，用于输出给定输入 <span class="math inline">\(\mathbf{x}\)</span> 的可能编码，即 <span class="math inline">\(q_\phi(\mathbf{z} \mid \mathbf{x})\)</span>，由参数 <span class="math inline">\(\phi\)</span> 参数化。</p>
+<p><img src="从Autoencoder到beta-VAE\VAE-graphical-model.png" alt="VAE-graphical-model" /> <span class="math display">\[
+\text{图5. 变分自编码器中涉及的图形模型。实线表示生成分布}\:p_\theta(.)，\text{虚线表示后验分布}\:q_\phi(\mathbf{z}\mid \mathbf{x})\text{以近似难以计算的后验}\:p_\theta(\mathbf{z} \mid \mathbf{x})。
+\]</span> 现在这个结构看起来很像一个autoencoder：</p>
 <ul>
-<li><p>条件概率$p_\theta(\mathbf{x}|\mathbf{z})$定义了一个生成模型，类似于上面介绍的解码器$f_θ(\mathbf{x|z})$。 $p_\theta(\mathbf{x}|\mathbf{z})$也被称为概率解码器。</p>
-</li>
-<li><p>近似函数$q_{\phi}\mathbf{(z|x)}$是概率编码器，扮演的角色与上述$g_\phi(\mathbf{z|x})$类似。</p>
-</li>
+<li><p>条件概率<span class="math inline">\(p_\theta(\mathbf{x}|\mathbf{z})\)</span>定义了一个生成模型，类似于上面介绍的解码器<span class="math inline">\(f_θ(\mathbf{x|z})\)</span>。 <span class="math inline">\(p_\theta(\mathbf{x}|\mathbf{z})\)</span>也被称为概率解码器。</p></li>
+<li><p>近似函数<span class="math inline">\(q_{\phi}\mathbf{(z|x)}\)</span>是概率编码器，扮演的角色与上述<span class="math inline">\(g_\phi(\mathbf{z|x})\)</span>类似。</p></li>
 </ul>
-<h2 id="Loss-Function-ELBO"><a href="#Loss-Function-ELBO" class="headerlink" title="Loss Function: ELBO"></a>Loss Function: ELBO</h2><p>估计的后验$q_\phi(\mathbf{z|x})$应该非常接近实际的$p_\theta(\mathbf{z|x})$。我们可以用Kullback-Leibler散度来量化这两个分布之间的距离。KL散度$D_{KL}(X|Y)$衡量如果用分布Y来表示X，会损失多少信息。</p>
-<p>在我们的例子中，我们想要最小化关于$\phi$ 的$D_{KL}(q_\phi(\mathbf{z|x})\mid p_\theta(\mathbf{z|x}))$。</p>
-<p>但为什么要使用$D_{KL}(q_\phi|p_\theta)$（反向KL）而不是$D_{KL}(p_\theta|q_\phi)$（前向KL）？Eric Jang在他关于贝叶斯变异方法的<a target="_blank" rel="noopener" href="https://blog.evjang.com/2016/08/variational-bayes.html">文章</a>中有一个很好的解释。快速回顾一下:</p>
-<p><img src="/.io//%E4%BB%8EAutoencoder%E5%88%B0beta-VAE%5Cforward_vs_reversed_KL.png" alt="forward_vs_reversed_KL"></p>
-<center>图6. 正向和反向的KL发散对如何匹配两个分布有不同的要求。(图片来源：blog.evjang.com/2016/08/variational-bayes.html)</center>
-
-<p>前向 $\mathrm{KL}$ 散度: $D_{\mathrm{KL}}(P \mid Q)&#x3D;\mathbb{E}_{z \sim P(z)} \log \frac{P(z)}{Q(z)}$; 我们必须确保  $\mathrm{P}(\mathrm{z})&gt;0$时$\mathrm{Q}(\mathrm{z})&gt;0$。优化后的变分分布$q(z)$必须覆盖整个 $p(z)$。</p>
-<p>反向$\mathrm{KL}$ 散度: $D_{\mathrm{KL}}(Q \mid P)&#x3D;\mathbb{E}_{z \sim Q(z)} \log \frac{Q(z)}{P(z)} ;$ 最小化反向 KL 散度会让 $Q(z)$ 的分布逐渐靠近并受限于 $P(z)$ 的分布</p>
-<p>现在让我们扩展方程：<br>$$<br>\begin{aligned}<br>&amp; D_\text{KL}( q_\phi(\mathbf{z}\vert\mathbf{x}) \mid p_\theta(\mathbf{z}\vert\mathbf{x}) ) &amp; \<br>&amp;&#x3D;\int q_\phi(\mathbf{z} \vert \mathbf{x}) \log\frac{q_\phi(\mathbf{z} \vert \mathbf{x})}{p_\theta(\mathbf{z} \vert \mathbf{x})} d\mathbf{z} &amp; \<br>&amp;&#x3D;\int q_\phi(\mathbf{z} \vert \mathbf{x}) \log\frac{q_\phi(\mathbf{z} \vert \mathbf{x})p_\theta(\mathbf{x})}{p_\theta(\mathbf{z}, \mathbf{x})} d\mathbf{z} &amp; \scriptstyle{\text{; Because }p(z \vert x) &#x3D; p(z, x) &#x2F; p(x)} \<br>&amp;&#x3D;\int q_\phi(\mathbf{z} \vert \mathbf{x}) \big( \log p_\theta(\mathbf{x}) + \log\frac{q_\phi(\mathbf{z} \vert \mathbf{x})}{p_\theta(\mathbf{z}, \mathbf{x})} \big) d\mathbf{z} &amp; \<br>&amp;&#x3D;\log p_\theta(\mathbf{x}) + \int q_\phi(\mathbf{z} \vert \mathbf{x})\log\frac{q_\phi(\mathbf{z} \vert \mathbf{x})}{p_\theta(\mathbf{z}, \mathbf{x})} d\mathbf{z} &amp; \scriptstyle{\text{; Because }\int q(z \vert x) dz &#x3D; 1}\<br>&amp;&#x3D;\log p_\theta(\mathbf{x}) + \int q_\phi(\mathbf{z} \vert \mathbf{x})\log\frac{q_\phi(\mathbf{z} \vert \mathbf{x})}{p_\theta(\mathbf{x}\vert\mathbf{z})p_\theta(\mathbf{z})} d\mathbf{z} &amp; \scriptstyle{\text{; Because }p(z, x) &#x3D; p(x \vert z) p(z)} \<br>&amp;&#x3D;\log p_\theta(\mathbf{x}) + \mathbb{E}<em>{\mathbf{z}\sim q_\phi(\mathbf{z} \vert \mathbf{x})}[\log \frac{q_\phi(\mathbf{z} \vert \mathbf{x})}{p_\theta(\mathbf{z})} - \log p_\theta(\mathbf{x} \vert \mathbf{z})] &amp;\<br>&amp;&#x3D;\log p_\theta(\mathbf{x}) + D_\text{KL}(q_\phi(\mathbf{z}\vert\mathbf{x}) | p_\theta(\mathbf{z})) - \mathbb{E}</em>{\mathbf{z}\sim q_\phi(\mathbf{z}\vert\mathbf{x})}\log p_\theta(\mathbf{x}\vert\mathbf{z}) &amp;<br>\end{aligned}<br>$$<br>方程的LHS正是我们在学习真实分布时想要最大化的东西：我们想要最大化产生真实数据的（对数）可能性（也就是$logp_{\theta}(x)$），同时最小化真实分布和估计后验分布之间的差异（术语$D_{KL}$的作用就像一个正则器）。请注意，$p_{θ}(x)$相对于$q_\phi$是固定的。</p>
-<p>上述的负数定义了我们的损失函数：<br>$$<br>\begin{aligned}<br>L_{\mathrm{VAE}}(\theta, \phi) &amp; &#x3D;-\log p_\theta(\mathbf{x})+D_{\mathrm{KL}}\left(q_\phi(\mathbf{z} \mid \mathbf{x}) | p_\theta(\mathbf{z} \mid \mathbf{x})\right) \<br>&amp; &#x3D;-\mathbb{E}<em>{\mathbf{z} \sim q \phi(\mathbf{z} \mid \mathbf{x})} \log p_\theta(\mathbf{x} \mid \mathbf{z})+D</em>{\mathrm{KL}}\left(q_\phi(\mathbf{z} \mid \mathbf{x}) | p_\theta(\mathbf{z})\right) \<br>\theta^*, \phi^* &amp; &#x3D;\arg \min <em>{\theta, \phi} L</em>{\mathrm{VAE}}<br>\end{aligned}<br>$$<br>在变分贝叶斯方法中，这种损失函数被称为变分下界或evidence下界。名称中的“下界”部分来自 KL 散度始终为非负的事实，因此$ −L_{\mathbf VAE}$ 是 $logp_θ(x)$ 的下界。</p>
-<p>$$<br>-L_{\mathrm{VAE}}&#x3D;\log p_\theta(\mathbf{x})-D_{\mathrm{KL}}\left(q_\phi(\mathbf{z} \mid \mathbf{x}) | p_\theta(\mathbf{z} \mid \mathbf{x})\right) \leq \log p_\theta(\mathbf{x})<br>$$<br>这句话中，”variational lower bound” 指的是变分下界或evidence下界，即能够被用来估计模型生成的样本与真实样本之间差异的指标。”KL divergence is always non-negative” 表示 KL 散度总是非负数。因此，$-L_{\mathrm{VAE}}$ 的值就是 $\log p_\theta(\mathbf{x})$ 的下界，这意味着我们可以使用 $-L_{\mathrm{VAE}}$ 来估计 $\log p_\theta(\mathbf{x})$，并且保证得到的结果不会低于实际值。</p>
-<h2 id="Reparameterization-Trick"><a href="#Reparameterization-Trick" class="headerlink" title="Reparameterization Trick"></a>Reparameterization Trick</h2><p>损失函数中的期望项涉及从$\mathbf{z} \sim q_\phi(\mathbf{z} \mid \mathbf{x})$生成样本 。采样是一种随机过程，因此我们无法反向传播梯度。为了使其可训练，引入了重参数化技巧：通常可以将随机变量 $\mathbf{z}$ 表示为一个确定性变量 $\mathbf{z}&#x3D;\mathcal{T}_\phi(\mathbf{x}, \boldsymbol{\epsilon})$，其中 $\boldsymbol{\epsilon}$ 是一个辅助的独立随机变量，由 $\phi$ 参数化的变换函数 $\mathcal{T}_\phi$ 将 $\boldsymbol{\epsilon}$ 转换为 $\mathbf{z}$。</p>
-<p>例如，$q_\phi(\mathbf{z} \mid \mathbf{x})$ 的常见选择是具有对角协方差结构的多元高斯分布：<br>$$<br>\begin{align}<br>&amp;\mathbf{z} \sim q_\phi\left(\mathbf{z} \mid \mathbf{x}^{(i)}\right)&#x3D;\mathcal{N}\left(\mathbf{z} ; \boldsymbol{\mu}^{(i)}, \boldsymbol{\sigma}^{2(i)} \boldsymbol{I}\right)\<br>&amp;\mathbf{z}&#x3D;\boldsymbol{\mu}+\boldsymbol{\sigma} \odot \boldsymbol{\epsilon}, where:\boldsymbol{\epsilon} \sim \mathcal{N}(0, \boldsymbol{I}) \quad ; Reparameterization:trick.<br>\end{align}<br>$$<br>其中 $\odot$ 表示逐元素相乘。</p>
-<p><img src="/.io//%E4%BB%8EAutoencoder%E5%88%B0beta-VAE%5Creparameterization-trick.png" alt="reparameterization-trick"><br>$$<br>\text{图7. 说明了重新参数化技巧如何使得}\mathbf{z}\text{采样过程可训练。(图片来源：Kingma在NIPS 2015研讨会上的幻灯片第12页)}<br>$$<br><img src="/.io//%E4%BB%8EAutoencoder%E5%88%B0beta-VAE%5Cvae-gaussian.png" alt="vae-gaussian"><br>$$<br>\text{图8. 具有多元高斯假设的variational autoencoder模型的图示}<br>$$</p>
+<h2 id="loss-function-elbo">Loss Function: ELBO</h2>
+<p>估计的后验<span class="math inline">\(q_\phi(\mathbf{z|x})\)</span>应该非常接近实际的<span class="math inline">\(p_\theta(\mathbf{z|x})\)</span>。我们可以用Kullback-Leibler散度来量化这两个分布之间的距离。KL散度<span class="math inline">\(D_{KL}(X|Y)\)</span>衡量如果用分布Y来表示X，会损失多少信息。</p>
+<p>在我们的例子中，我们想要最小化关于<span class="math inline">\(\phi\)</span> 的<span class="math inline">\(D_{KL}(q_\phi(\mathbf{z|x})\mid p_\theta(\mathbf{z|x}))\)</span>。</p>
+<p>但为什么要使用<span class="math inline">\(D_{KL}(q_\phi|p_\theta)\)</span>（反向KL）而不是<span class="math inline">\(D_{KL}(p_\theta|q_\phi)\)</span>（前向KL）？Eric Jang在他关于贝叶斯变异方法的<a target="_blank" rel="noopener" href="https://blog.evjang.com/2016/08/variational-bayes.html">文章</a>中有一个很好的解释。快速回顾一下:</p>
+<figure>
+<img src="从Autoencoder到beta-VAE\forward_vs_reversed_KL.png" alt="forward_vs_reversed_KL" /><figcaption aria-hidden="true">forward_vs_reversed_KL</figcaption>
+</figure>
+<center>
+图6. 正向和反向的KL发散对如何匹配两个分布有不同的要求。(图片来源：blog.evjang.com/2016/08/variational-bayes.html)
+</center>
+<p>前向 <span class="math inline">\(\mathrm{KL}\)</span> 散度: <span class="math inline">\(D_{\mathrm{KL}}(P \mid Q)=\mathbb{E}_{z \sim P(z)} \log \frac{P(z)}{Q(z)}\)</span>; 我们必须确保 <span class="math inline">\(\mathrm{P}(\mathrm{z})&gt;0\)</span>时<span class="math inline">\(\mathrm{Q}(\mathrm{z})&gt;0\)</span>。优化后的变分分布<span class="math inline">\(q(z)\)</span>必须覆盖整个 <span class="math inline">\(p(z)\)</span>。</p>
+<p>反向<span class="math inline">\(\mathrm{KL}\)</span> 散度: <span class="math inline">\(D_{\mathrm{KL}}(Q \mid P)=\mathbb{E}_{z \sim Q(z)} \log \frac{Q(z)}{P(z)} ;\)</span> 最小化反向 KL 散度会让 <span class="math inline">\(Q(z)\)</span> 的分布逐渐靠近并受限于 <span class="math inline">\(P(z)\)</span> 的分布</p>
+<p>现在让我们扩展方程： <span class="math display">\[
+\begin{aligned}
+&amp; D_\text{KL}( q_\phi(\mathbf{z}\vert\mathbf{x}) \mid p_\theta(\mathbf{z}\vert\mathbf{x}) ) &amp; \\
+&amp;=\int q_\phi(\mathbf{z} \vert \mathbf{x}) \log\frac{q_\phi(\mathbf{z} \vert \mathbf{x})}{p_\theta(\mathbf{z} \vert \mathbf{x})} d\mathbf{z} &amp; \\
+&amp;=\int q_\phi(\mathbf{z} \vert \mathbf{x}) \log\frac{q_\phi(\mathbf{z} \vert \mathbf{x})p_\theta(\mathbf{x})}{p_\theta(\mathbf{z}, \mathbf{x})} d\mathbf{z} &amp; \scriptstyle{\text{; Because }p(z \vert x) = p(z, x) / p(x)} \\
+&amp;=\int q_\phi(\mathbf{z} \vert \mathbf{x}) \big( \log p_\theta(\mathbf{x}) + \log\frac{q_\phi(\mathbf{z} \vert \mathbf{x})}{p_\theta(\mathbf{z}, \mathbf{x})} \big) d\mathbf{z} &amp; \\
+&amp;=\log p_\theta(\mathbf{x}) + \int q_\phi(\mathbf{z} \vert \mathbf{x})\log\frac{q_\phi(\mathbf{z} \vert \mathbf{x})}{p_\theta(\mathbf{z}, \mathbf{x})} d\mathbf{z} &amp; \scriptstyle{\text{; Because }\int q(z \vert x) dz = 1}\\
+&amp;=\log p_\theta(\mathbf{x}) + \int q_\phi(\mathbf{z} \vert \mathbf{x})\log\frac{q_\phi(\mathbf{z} \vert \mathbf{x})}{p_\theta(\mathbf{x}\vert\mathbf{z})p_\theta(\mathbf{z})} d\mathbf{z} &amp; \scriptstyle{\text{; Because }p(z, x) = p(x \vert z) p(z)} \\
+&amp;=\log p_\theta(\mathbf{x}) + \mathbb{E}_{\mathbf{z}\sim q_\phi(\mathbf{z} \vert \mathbf{x})}[\log \frac{q_\phi(\mathbf{z} \vert \mathbf{x})}{p_\theta(\mathbf{z})} - \log p_\theta(\mathbf{x} \vert \mathbf{z})] &amp;\\
+&amp;=\log p_\theta(\mathbf{x}) + D_\text{KL}(q_\phi(\mathbf{z}\vert\mathbf{x}) \| p_\theta(\mathbf{z})) - \mathbb{E}_{\mathbf{z}\sim q_\phi(\mathbf{z}\vert\mathbf{x})}\log p_\theta(\mathbf{x}\vert\mathbf{z}) &amp;
+\end{aligned}
+\]</span> 方程的LHS正是我们在学习真实分布时想要最大化的东西：我们想要最大化产生真实数据的（对数）可能性（也就是<span class="math inline">\(logp_{\theta}(x)\)</span>），同时最小化真实分布和估计后验分布之间的差异（术语<span class="math inline">\(D_{KL}\)</span>的作用就像一个正则器）。请注意，<span class="math inline">\(p_{θ}(x)\)</span>相对于<span class="math inline">\(q_\phi\)</span>是固定的。</p>
+<p>上述的负数定义了我们的损失函数： <span class="math display">\[
+\begin{aligned}
+L_{\mathrm{VAE}}(\theta, \phi) &amp; =-\log p_\theta(\mathbf{x})+D_{\mathrm{KL}}\left(q_\phi(\mathbf{z} \mid \mathbf{x}) \| p_\theta(\mathbf{z} \mid \mathbf{x})\right) \\
+&amp; =-\mathbb{E}_{\mathbf{z} \sim q \phi(\mathbf{z} \mid \mathbf{x})} \log p_\theta(\mathbf{x} \mid \mathbf{z})+D_{\mathrm{KL}}\left(q_\phi(\mathbf{z} \mid \mathbf{x}) \| p_\theta(\mathbf{z})\right) \\
+\theta^*, \phi^* &amp; =\arg \min _{\theta, \phi} L_{\mathrm{VAE}}
+\end{aligned}
+\]</span> 在变分贝叶斯方法中，这种损失函数被称为变分下界或evidence下界。名称中的“下界”部分来自 KL 散度始终为非负的事实，因此$ −L_{VAE}$ 是 <span class="math inline">\(logp_θ(x)\)</span> 的下界。</p>
+<p><span class="math display">\[
+-L_{\mathrm{VAE}}=\log p_\theta(\mathbf{x})-D_{\mathrm{KL}}\left(q_\phi(\mathbf{z} \mid \mathbf{x}) \| p_\theta(\mathbf{z} \mid \mathbf{x})\right) \leq \log p_\theta(\mathbf{x})
+\]</span> 这句话中，"variational lower bound" 指的是变分下界或evidence下界，即能够被用来估计模型生成的样本与真实样本之间差异的指标。"KL divergence is always non-negative" 表示 KL 散度总是非负数。因此，<span class="math inline">\(-L_{\mathrm{VAE}}\)</span> 的值就是 <span class="math inline">\(\log p_\theta(\mathbf{x})\)</span> 的下界，这意味着我们可以使用 <span class="math inline">\(-L_{\mathrm{VAE}}\)</span> 来估计 <span class="math inline">\(\log p_\theta(\mathbf{x})\)</span>，并且保证得到的结果不会低于实际值。</p>
+<h2 id="reparameterization-trick">Reparameterization Trick</h2>
+<p>损失函数中的期望项涉及从<span class="math inline">\(\mathbf{z} \sim q_\phi(\mathbf{z} \mid \mathbf{x})\)</span>生成样本 。采样是一种随机过程，因此我们无法反向传播梯度。为了使其可训练，引入了重参数化技巧：通常可以将随机变量 <span class="math inline">\(\mathbf{z}\)</span> 表示为一个确定性变量 <span class="math inline">\(\mathbf{z}=\mathcal{T}_\phi(\mathbf{x}, \boldsymbol{\epsilon})\)</span>，其中 <span class="math inline">\(\boldsymbol{\epsilon}\)</span> 是一个辅助的独立随机变量，由 <span class="math inline">\(\phi\)</span> 参数化的变换函数 <span class="math inline">\(\mathcal{T}_\phi\)</span> 将 <span class="math inline">\(\boldsymbol{\epsilon}\)</span> 转换为 <span class="math inline">\(\mathbf{z}\)</span>。</p>
+<p>例如，<span class="math inline">\(q_\phi(\mathbf{z} \mid \mathbf{x})\)</span> 的常见选择是具有对角协方差结构的多元高斯分布： <span class="math display">\[
+\begin{align}
+&amp;\mathbf{z} \sim q_\phi\left(\mathbf{z} \mid \mathbf{x}^{(i)}\right)=\mathcal{N}\left(\mathbf{z} ; \boldsymbol{\mu}^{(i)}, \boldsymbol{\sigma}^{2(i)} \boldsymbol{I}\right)\\
+&amp;\mathbf{z}=\boldsymbol{\mu}+\boldsymbol{\sigma} \odot \boldsymbol{\epsilon}, where\:\boldsymbol{\epsilon} \sim \mathcal{N}(0, \boldsymbol{I}) \quad ; Reparameterization\:trick.
+\end{align}
+\]</span> 其中 <span class="math inline">\(\odot\)</span> 表示逐元素相乘。</p>
+<p><img src="从Autoencoder到beta-VAE\reparameterization-trick.png" alt="reparameterization-trick" /> <span class="math display">\[
+\text{图7. 说明了重新参数化技巧如何使得}\mathbf{z}\text{采样过程可训练。(图片来源：Kingma在NIPS 2015研讨会上的幻灯片第12页)}
+\]</span> <img src="从Autoencoder到beta-VAE\vae-gaussian.png" alt="vae-gaussian" /> <span class="math display">\[
+\text{图8. 具有多元高斯假设的variational autoencoder模型的图示}
+\]</span></p>
 <p>编码步骤：</p>
-<ol>
-<li>将 $\mathbf{x}$ 通过编码器 $q_{\phi}(\mathbf{z} \mid \mathbf{x})$ 转化为潜在空间中的分布参数，即 $\mu_{\phi}(\mathbf{x})$ 和 $\log \sigma^2_{\phi}(\mathbf{x})$。</li>
-<li>从标准正态分布$\mathcal{N}(0, \boldsymbol{I})$中采样噪声 $\mathbf{\epsilon}$。</li>
-<li>使用重参数技巧，将采样的噪声 $\mathbf{\epsilon}$ 与分布参数 $\mu_{\phi}(\mathbf{x})$ 和 $\sigma_{\phi}(\mathbf{x})$ 结合，得到 $\mathbf{z} &#x3D; \mu_{\phi}(\mathbf{x}) + \sigma_{\phi}(\mathbf{x}) \odot \mathbf{\epsilon}$，其中 $\odot$ 表示元素级别的乘法。</li>
-<li>最终得到的 $\mathbf{z}$ 即为从数据 $\mathbf{x}$ 中提取的隐变量。</li>
+<ol type="1">
+<li>将 <span class="math inline">\(\mathbf{x}\)</span> 通过编码器 <span class="math inline">\(q_{\phi}(\mathbf{z} \mid \mathbf{x})\)</span> 转化为潜在空间中的分布参数，即 <span class="math inline">\(\mu_{\phi}(\mathbf{x})\)</span> 和 <span class="math inline">\(\log \sigma^2_{\phi}(\mathbf{x})\)</span>。</li>
+<li>从标准正态分布<span class="math inline">\(\mathcal{N}(0, \boldsymbol{I})\)</span>中采样噪声 <span class="math inline">\(\mathbf{\epsilon}\)</span>。</li>
+<li>使用重参数技巧，将采样的噪声 <span class="math inline">\(\mathbf{\epsilon}\)</span> 与分布参数 <span class="math inline">\(\mu_{\phi}(\mathbf{x})\)</span> 和 <span class="math inline">\(\sigma_{\phi}(\mathbf{x})\)</span> 结合，得到 <span class="math inline">\(\mathbf{z} = \mu_{\phi}(\mathbf{x}) + \sigma_{\phi}(\mathbf{x}) \odot \mathbf{\epsilon}\)</span>，其中 <span class="math inline">\(\odot\)</span> 表示元素级别的乘法。</li>
+<li>最终得到的 <span class="math inline">\(\mathbf{z}\)</span> 即为从数据 <span class="math inline">\(\mathbf{x}\)</span> 中提取的隐变量。</li>
 </ol>
 <p>需要注意的是，在第三步使用重参数技巧是为了将采样过程转化为可微分的操作，这样可以通过反向传播算法优化模型参数。</p>
-<p>在编码器中，通常会使用神经网络将输入 $\mathbf{x}$ 映射到潜在空间中的分布参数 $\mu_{\phi}(\mathbf{x})$ 和 $\log \sigma^2_{\phi}(\mathbf{x})$。具体来说，输入 $\mathbf{x}$ 会经过多层神经网络的计算，最终得到均值向量 $\mu_{\phi}(\mathbf{x})$ 和方差向量 $\sigma^2_{\phi}(\mathbf{x})$。由于 $\sigma^2_{\phi}(\mathbf{x})$ 需要保证是正数，因此一般会将神经网络输出的 $\sigma^2_{\phi}(\mathbf{x})$ 进行非负化处理，例如通过取指数等方式，再加上一个很小的正数，以保证不会出现零方差。最终得到的是 $\log \sigma^2_{\phi}(\mathbf{x})$。这样就可以得到潜在分布的均值和方差，从而生成随机样本 $\mathbf{z}$。</p>
-<h2 id="Beta-VAE"><a href="#Beta-VAE" class="headerlink" title="Beta-VAE"></a>Beta-VAE</h2><p>如果推断得到的潜在表示 $\mathbf{z}$ 中的每个变量只对一个单独的生成因子敏感，而对其他因子相对不变，那么我们会说这个表示是分离的或因子化的。分离的表示通常具有良好的可解释性，并且易于推广到各种任务中。</p>
+<p>在编码器中，通常会使用神经网络将输入 <span class="math inline">\(\mathbf{x}\)</span> 映射到潜在空间中的分布参数 <span class="math inline">\(\mu_{\phi}(\mathbf{x})\)</span> 和 <span class="math inline">\(\log \sigma^2_{\phi}(\mathbf{x})\)</span>。具体来说，输入 <span class="math inline">\(\mathbf{x}\)</span> 会经过多层神经网络的计算，最终得到均值向量 <span class="math inline">\(\mu_{\phi}(\mathbf{x})\)</span> 和方差向量 <span class="math inline">\(\sigma^2_{\phi}(\mathbf{x})\)</span>。由于 <span class="math inline">\(\sigma^2_{\phi}(\mathbf{x})\)</span> 需要保证是正数，因此一般会将神经网络输出的 <span class="math inline">\(\sigma^2_{\phi}(\mathbf{x})\)</span> 进行非负化处理，例如通过取指数等方式，再加上一个很小的正数，以保证不会出现零方差。最终得到的是 <span class="math inline">\(\log \sigma^2_{\phi}(\mathbf{x})\)</span>。这样就可以得到潜在分布的均值和方差，从而生成随机样本 <span class="math inline">\(\mathbf{z}\)</span>。</p>
+<h2 id="beta-vae">Beta-VAE</h2>
+<p>如果推断得到的潜在表示 <span class="math inline">\(\mathbf{z}\)</span> 中的每个变量只对一个单独的生成因子敏感，而对其他因子相对不变，那么我们会说这个表示是分离的或因子化的。分离的表示通常具有良好的可解释性，并且易于推广到各种任务中。</p>
 <p>例如，对于人脸照片训练的模型可能会在单独的维度中捕捉到肤色、头发颜色、头发长度、情绪、是否戴眼镜等许多相对独立的因素。这样的分离表示对于人脸图像生成非常有益。</p>
-<p>$\beta$-VAE (Higgins et al., 2017) 是变分自编码器的一种修改，特别强调发现分离的潜在因子。与 $\mathrm{VAE}$ 中的相同激励一样，我们希望最大化生成真实数据的概率，同时保持真实后验分布与估计后验分布之间的距离很小（例如，小于一个常量 $\delta$）：<br>$$<br>\begin{aligned}<br>&amp; \max <em>{\phi, \theta} \mathbb{E}</em>{\mathbf{x} \sim \mathcal{D}}\left[\mathbb{E}<em>{\mathbf{z} \sim q \phi(\mathbf{z} \mid \mathbf{x})} \log p_\theta(\mathbf{x} \mid \mathbf{z})\right] \<br>&amp; \text { subject to } D</em>{\mathrm{KL}}\left(q_\phi(\mathbf{z} \mid \mathbf{x}) | p_\theta(\mathbf{z})\right)&lt;\delta<br>\end{aligned}<br>$$<br>我们可以在 KKT 条件下使用拉格朗日乘子 $\beta$ 重新表述它。只有一个不等式约束的上述优化问题等价于最大化以下方程 $\mathcal{F}(\theta, \phi, \beta)$：<br>$$<br>\begin{array}{rlr}<br>\mathcal{F}(\theta, \phi, \beta) &amp; &#x3D;\mathbb{E}_{\mathbf{z} \sim q_\phi(\mathbf{z} \mid \mathbf{x})} \log p_\theta(\mathbf{x} \mid \mathbf{z})-\beta\left(D_{\mathrm{KL}}\left(q_\phi(\mathbf{z} \mid \mathbf{x}) | p_\theta(\mathbf{z})\right)-\delta\right) \<br>&amp; &#x3D;\mathbb{E}_{\mathbf{z} \sim q \phi(\mathbf{z} \mid \mathbf{x})} \log p_\theta(\mathbf{x} \mid \mathbf{z})-\beta D_{\mathrm{KL}}\left(q_\phi(\mathbf{z} \mid \mathbf{x}) | p_\theta(\mathbf{z})\right)+\beta \delta &amp; \<br>&amp; \geq \mathbb{E}_{\mathbf{z} \sim q_\phi(\mathbf{z} \mid \mathbf{x})} \log p_\theta(\mathbf{x} \mid \mathbf{z})-\beta D_{\mathrm{KL}}\left(q_\phi(\mathbf{z} \mid \mathbf{x}) | p_\theta(\mathbf{z})\right) \quad ; \text { Because } \beta, \delta \geq 0<br>\end{array}<br>$$<br> $\beta$-VAE 的损失函数定义如下：<br>$$<br>L_{\mathrm{BETA}}(\phi, \beta)&#x3D;-\mathbb{E}*{\mathbf{z} \sim q*\phi(\mathbf{z} \mid \mathbf{x})} \log p_\theta(\mathbf{x} \mid \mathbf{z})+\beta D_{\mathrm{KL}}\left(q_\phi(\mathbf{z} \mid \mathbf{x}) | p_\theta(\mathbf{z})\right)<br>$$<br>在这里，拉格朗日乘子$\beta$被视为超参数。由于$L_{\mathrm{BETA}}(\phi, \beta)$的否定是拉格朗日函数$\mathcal{F}(\theta, \phi, \beta)$的下界，因此最小化损失等价于最大化拉格朗日函数，从而适用于我们最初的优化问题。当$\beta&#x3D;1$时，它与VAE相同。当$\beta&gt;1$时，它对潜在bottleneck施加了更强的约束，并限制了$\mathbf{z}$的表示能力。对于某些条件独立的生成因子，保持它们分离是最有效的表示方法。因此，较高的$\beta$鼓励更有效的潜在编码，并进一步鼓励解耦。同时，较高的$\beta$可能会在重构质量和解耦程度之间产生权衡。<a href="chrome-extension://ikhdkkncnoglghljlkmcimlnlhkeamad/pdf-viewer/web/viewer.html?file=https%3A%2F%2Farxiv.org%2Fpdf%2F1804.03599.pdf#=&zoom=130">Burgess等人（2017）</a>深入讨论了$\beta$-VAE中的解耦，并受信息瓶颈理论的启发，进一步提出了一种修改方法以更好地控制编码表示能力。</p>
-<h2 id="VQ-VAE-and-VQ-VAE-2"><a href="#VQ-VAE-and-VQ-VAE-2" class="headerlink" title="VQ-VAE and VQ-VAE-2"></a>VQ-VAE and VQ-VAE-2</h2><p>VQ-VAE（”Vector Quantised-Variational AutoEncoder”）模型通过编码器学习离散的潜在变量，因为对于语言、语音、推理等问题，离散表示可能更自然地适用。</p>
-<p>向量量化（VQ）是一种将$K$维向量映射到有限的“码”向量集合中的方法。该过程非常类似于 ${KNN}$ 算法。样本应映射到的最优质心码向量是欧几里得距离最小的向量。</p>
-<p>设 $\mathbf{e} \in \mathbb{R}^{K \times D}$，$i&#x3D;1, \ldots, K$ 为 VQ-VAE 中的潜在嵌入空间（也称为“码本”），其中 $K$ 是潜在变量类别的数量，$D$ 是嵌入大小。单个嵌入向量是 $\mathbf{e}_i \in \mathbb{R}^D$，$i&#x3D;1, \ldots, K$。</p>
-<p>编码器的输出 $E(\mathbf{x})&#x3D;\mathbf{z}_e$ 经过最近邻查找以匹配 $K$ 个嵌入向量之一，然后匹配的码向量成为解码器的输入 $D($.$) :$</p>
-<p>$\mathbf{z}_q(\mathbf{x})&#x3D;$ Quantize $(E(\mathbf{x}))&#x3D;\mathbf{e}_k$ ，$k&#x3D;\arg \min _i\left|E(\mathbf{x})-\mathbf{e}_i\right|_2$</p>
+<p><span class="math inline">\(\beta\)</span>-VAE (Higgins et al., 2017) 是变分自编码器的一种修改，特别强调发现分离的潜在因子。与 <span class="math inline">\(\mathrm{VAE}\)</span> 中的相同激励一样，我们希望最大化生成真实数据的概率，同时保持真实后验分布与估计后验分布之间的距离很小（例如，小于一个常量 <span class="math inline">\(\delta\)</span>）： <span class="math display">\[
+\begin{aligned}
+&amp; \max _{\phi, \theta} \mathbb{E}_{\mathbf{x} \sim \mathcal{D}}\left[\mathbb{E}_{\mathbf{z} \sim q \phi(\mathbf{z} \mid \mathbf{x})} \log p_\theta(\mathbf{x} \mid \mathbf{z})\right] \\
+&amp; \text { subject to } D_{\mathrm{KL}}\left(q_\phi(\mathbf{z} \mid \mathbf{x}) \| p_\theta(\mathbf{z})\right)&lt;\delta
+\end{aligned}
+\]</span> 我们可以在 KKT 条件下使用拉格朗日乘子 <span class="math inline">\(\beta\)</span> 重新表述它。只有一个不等式约束的上述优化问题等价于最大化以下方程 <span class="math inline">\(\mathcal{F}(\theta, \phi, \beta)\)</span>： <span class="math display">\[
+\begin{array}{rlr}
+\mathcal{F}(\theta, \phi, \beta) &amp; =\mathbb{E}_{\mathbf{z} \sim q_\phi(\mathbf{z} \mid \mathbf{x})} \log p_\theta(\mathbf{x} \mid \mathbf{z})-\beta\left(D_{\mathrm{KL}}\left(q_\phi(\mathbf{z} \mid \mathbf{x}) \| p_\theta(\mathbf{z})\right)-\delta\right) \\
+&amp; =\mathbb{E}_{\mathbf{z} \sim q \phi(\mathbf{z} \mid \mathbf{x})} \log p_\theta(\mathbf{x} \mid \mathbf{z})-\beta D_{\mathrm{KL}}\left(q_\phi(\mathbf{z} \mid \mathbf{x}) \| p_\theta(\mathbf{z})\right)+\beta \delta &amp; \\
+&amp; \geq \mathbb{E}_{\mathbf{z} \sim q_\phi(\mathbf{z} \mid \mathbf{x})} \log p_\theta(\mathbf{x} \mid \mathbf{z})-\beta D_{\mathrm{KL}}\left(q_\phi(\mathbf{z} \mid \mathbf{x}) \| p_\theta(\mathbf{z})\right) \quad ; \text { Because } \beta, \delta \geq 0
+\end{array}
+\]</span> <span class="math inline">\(\beta\)</span>-VAE 的损失函数定义如下： <span class="math display">\[
+L_{\mathrm{BETA}}(\phi, \beta)=-\mathbb{E}*{\mathbf{z} \sim q*\phi(\mathbf{z} \mid \mathbf{x})} \log p_\theta(\mathbf{x} \mid \mathbf{z})+\beta D_{\mathrm{KL}}\left(q_\phi(\mathbf{z} \mid \mathbf{x}) | p_\theta(\mathbf{z})\right)
+\]</span> 在这里，拉格朗日乘子<span class="math inline">\(\beta\)</span>被视为超参数。由于<span class="math inline">\(L_{\mathrm{BETA}}(\phi, \beta)\)</span>的否定是拉格朗日函数<span class="math inline">\(\mathcal{F}(\theta, \phi, \beta)\)</span>的下界，因此最小化损失等价于最大化拉格朗日函数，从而适用于我们最初的优化问题。当<span class="math inline">\(\beta=1\)</span>时，它与VAE相同。当<span class="math inline">\(\beta&gt;1\)</span>时，它对潜在bottleneck施加了更强的约束，并限制了<span class="math inline">\(\mathbf{z}\)</span>的表示能力。对于某些条件独立的生成因子，保持它们分离是最有效的表示方法。因此，较高的<span class="math inline">\(\beta\)</span>鼓励更有效的潜在编码，并进一步鼓励解耦。同时，较高的<span class="math inline">\(\beta\)</span>可能会在重构质量和解耦程度之间产生权衡。<a href="chrome-extension://ikhdkkncnoglghljlkmcimlnlhkeamad/pdf-viewer/web/viewer.html?file=https%3A%2F%2Farxiv.org%2Fpdf%2F1804.03599.pdf#=&amp;zoom=130">Burgess等人（2017）</a>深入讨论了<span class="math inline">\(\beta\)</span>-VAE中的解耦，并受信息瓶颈理论的启发，进一步提出了一种修改方法以更好地控制编码表示能力。</p>
+<h2 id="vq-vae-and-vq-vae-2">VQ-VAE and VQ-VAE-2</h2>
+<p>VQ-VAE（"Vector Quantised-Variational AutoEncoder"）模型通过编码器学习离散的潜在变量，因为对于语言、语音、推理等问题，离散表示可能更自然地适用。</p>
+<p>向量量化（VQ）是一种将<span class="math inline">\(K\)</span>维向量映射到有限的“码”向量集合中的方法。该过程非常类似于 <span class="math inline">\({KNN}\)</span> 算法。样本应映射到的最优质心码向量是欧几里得距离最小的向量。</p>
+<p>设 <span class="math inline">\(\mathbf{e} \in \mathbb{R}^{K \times D}\)</span>，<span class="math inline">\(i=1, \ldots, K\)</span> 为 VQ-VAE 中的潜在嵌入空间（也称为“码本”），其中 <span class="math inline">\(K\)</span> 是潜在变量类别的数量，<span class="math inline">\(D\)</span> 是嵌入大小。单个嵌入向量是 <span class="math inline">\(\mathbf{e}_i \in \mathbb{R}^D\)</span>，<span class="math inline">\(i=1, \ldots, K\)</span>。</p>
+<p>编码器的输出 <span class="math inline">\(E(\mathbf{x})=\mathbf{z}_e\)</span> 经过最近邻查找以匹配 <span class="math inline">\(K\)</span> 个嵌入向量之一，然后匹配的码向量成为解码器的输入 <span class="math inline">\(D(\)</span>.<span class="math inline">\() :\)</span></p>
+<p><span class="math inline">\(\mathbf{z}_q(\mathbf{x})=\)</span> Quantize <span class="math inline">\((E(\mathbf{x}))=\mathbf{e}_k\)</span> ，<span class="math inline">\(k=\arg \min _i\left\|E(\mathbf{x})-\mathbf{e}_i\right\|_2\)</span></p>
 <p>请注意，在不同的应用程序中，离散潜在变量的形状可能不同；例如，语音为1D，图像为2D，视频为3D。</p>
-<p><img src="/.io//%E4%BB%8EAutoencoder%E5%88%B0beta-VAE%5CVQ-VAE.png" alt="VQ-VAE"></p>
-<center>图9. VQ-VAE 的架构（图片来源：van den Oord, et al. 2017）</center>
-
-<p>由于 argmin() 在离散空间上是不可微的，因此从解码器输入 $\mathbf{z}_q$ 到编码器输出 $\mathbf{z}_e$ 的梯度 $\nabla_z L$ 被复制。除了重构损失之外，VQ-VAE 还优化以下内容：</p>
+<figure>
+<img src="从Autoencoder到beta-VAE\VQ-VAE.png" alt="VQ-VAE" /><figcaption aria-hidden="true">VQ-VAE</figcaption>
+</figure>
+<center>
+图9. VQ-VAE 的架构（图片来源：van den Oord, et al. 2017）
+</center>
+<p>由于 argmin() 在离散空间上是不可微的，因此从解码器输入 <span class="math inline">\(\mathbf{z}_q\)</span> 到编码器输出 <span class="math inline">\(\mathbf{z}_e\)</span> 的梯度 <span class="math inline">\(\nabla_z L\)</span> 被复制。除了重构损失之外，VQ-VAE 还优化以下内容：</p>
 <ul>
-<li>$V Q$ 损失：嵌入空间和编码器输出之间的 L2 误差。</li>
+<li><span class="math inline">\(V Q\)</span> 损失：嵌入空间和编码器输出之间的 L2 误差。</li>
 <li>承诺损失：一种鼓励编码器输出保持接近嵌入空间的度量，以防止其从一个码向量频繁波动到另一个码向量。</li>
 </ul>
-<p>$L&#x3D;\underbrace{\left|\mathbf{x}-D\left(\mathbf{e}<em>k\right)\right|<em>2^2}</em>{\text {reconstruction loss }}+\underbrace{| \operatorname{sg}[E(\mathbf{x})]}</em>{\text {vQ loss }}-\mathbf{e}_k |_2^2+\underbrace{\beta\left|(\mathbf{x})-\operatorname{sg}\left[\mathbf{e}_k\right]\right|<em>2^2}</em>{\text {commitment loss }}$</p>
-<p>其中 $\mathrm{sq}[.]$ 是 <code>stop_gradient</code>运算符。</p>
-<p>codebook 中的embedding vectors通过 EMA（指数移动平均）进行更新。给定一个code vector$\mathbf{e}<em>i$，假设我们有 $n_i$ 个编码器输出向量$\left{\mathbf{z}</em>{i, j}\right}_{j&#x3D;1}^{n_i}$，它们被量化为 $\mathbf{e}_i$：<br>$$<br>N_i^{(t)}&#x3D;\gamma N_i^{(t-1)}+(1-\gamma) n_i^{(t)} \quad \mathbf{m}<em>i^{(t)}&#x3D;\gamma \mathbf{m}<em>i^{(t-1)}+(1-\gamma) \sum</em>{j&#x3D;1}^{n_i^{(t)}} \mathbf{z}</em>{i, j}^{(t)} \quad \mathbf{e}_i^{(t)}&#x3D;\mathbf{m}_i^{(t)} &#x2F; N_i^{(t)}<br>$$<br>其中 $(t)$ 指时间序列批次。$N_i$ 和 $\mathbf{m}_i$ 分别是累积向量计数和体积。</p>
+<p><span class="math inline">\(L=\underbrace{\left\|\mathbf{x}-D\left(\mathbf{e}_k\right)\right\|_2^2}_{\text {reconstruction loss }}+\underbrace{\| \operatorname{sg}[E(\mathbf{x})]}_{\text {vQ loss }}-\mathbf{e}_k \|_2^2+\underbrace{\beta\left\|(\mathbf{x})-\operatorname{sg}\left[\mathbf{e}_k\right]\right\|_2^2}_{\text {commitment loss }}\)</span></p>
+<p>其中 <span class="math inline">\(\mathrm{sq}[.]\)</span> 是 <code>stop_gradient</code>运算符。</p>
+<p>codebook 中的embedding vectors通过 EMA（指数移动平均）进行更新。给定一个code vector<span class="math inline">\(\mathbf{e}_i\)</span>，假设我们有 <span class="math inline">\(n_i\)</span> 个编码器输出向量<span class="math inline">\(\left\{\mathbf{z}_{i, j}\right\}_{j=1}^{n_i}\)</span>，它们被量化为 <span class="math inline">\(\mathbf{e}_i\)</span>： <span class="math display">\[
+N_i^{(t)}=\gamma N_i^{(t-1)}+(1-\gamma) n_i^{(t)} \quad \mathbf{m}_i^{(t)}=\gamma \mathbf{m}_i^{(t-1)}+(1-\gamma) \sum_{j=1}^{n_i^{(t)}} \mathbf{z}_{i, j}^{(t)} \quad \mathbf{e}_i^{(t)}=\mathbf{m}_i^{(t)} / N_i^{(t)}
+\]</span> 其中 <span class="math inline">\((t)\)</span> 指时间序列批次。<span class="math inline">\(N_i\)</span> 和 <span class="math inline">\(\mathbf{m}_i\)</span> 分别是累积向量计数和体积。</p>
 <p>VQ-VAE-2（<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1906.00446">Ali Razavi 等，2019</a>）是一个两级分层的 VQ-VAE，与自注意力自回归模型结合</p>
-<ol>
+<ol type="1">
 <li>第 1 阶段是<strong>训练分层 VQ-VAE</strong>：分层潜变量的设计旨在将局部模式（例如纹理）与全局信息（例如对象形状）分离。更大的底层codebook 的训练受到更小的顶层码的限制，这样就不必从头开始学习所有内容。</li>
 <li>第2阶段是<strong>学习一个先验分布</strong>，使我们可以从中采样并生成图像。这样，解码器可以接收从训练中采样的类似分布的输入向量。使用一个强大的自回归模型，增强了多头自注意力层来捕捉先验分布（例如<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1712.09763">PixelSNAIL；Chen等人，2017</a>）。</li>
 </ol>
 <p>考虑到VQ-VAE-2取决于在简单的分层设置中配置的离散潜在变量，它生成的图像质量非常惊人。</p>
-<p><img src="/.io//%E4%BB%8EAutoencoder%E5%88%B0beta-VAE%5CVQ-VAE-2.png" alt="VQ-VAE-2"></p>
-<center> 图10.分层VQ-VAE和多阶段图像生成的架构。(图片来源：Ali Razavi, et al. 2019)</center>
-
-<p><img src="/.io//%E4%BB%8EAutoencoder%E5%88%B0beta-VAE%5CVQ-VAE-2-algo.png" alt="VQ-VAE-2-algo"></p>
-<center>图11. VQ-VAE-2算法。(图片来源：Ali Razavi, et al. 2019)</center>
-
-<h2 id="TD-VAE"><a href="#TD-VAE" class="headerlink" title="TD-VAE"></a>TD-VAE</h2><p>TD-VAE (“Temporal Difference VAE”; <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1806.03107">Gregor et al., 2019</a>)适用于连续的数据。它依赖于三个主要想法，描述如下。</p>
-<p><img src="/.io//%E4%BB%8EAutoencoder%E5%88%B0beta-VAE%5CTD-VAE-state-space.png" alt="TD-VAE-state-space"></p>
-<center>图12. 马尔可夫链模型的状态空间模型。</center>
-
-<p>**1.  状态空间模型 **</p>
-<p>在（潜在的）状态空间模型中，一系列未观察到的隐藏状态$\mathbf{z}&#x3D;\left(z_1, \ldots, z_T\right)$确定了观测状态$\mathbf{x}&#x3D;\left(x_1, \ldots, x_T\right)$。在图13中的马尔可夫链模型中，与图6中类似，可以通过将难以处理的后验$p(z \mid x)$近似为一个函数$q(z \mid x)$来训练每个时间步。</p>
-<p><strong>2.  信念状态</strong><br>一个智能体应该学会编码所有过去的状态以便推断未来，这被称为信念状态，$b_t&#x3D;\operatorname{belief}\left(x_1, \ldots, x_t\right)&#x3D;$ belief $f\left(b_{t-1}, x_t\right)$。有了这个，将未来状态的分布条件化于过去就可以写成$p\left(x_{t+1}, \ldots, x_T \mid x_1, \ldots, x_t\right) \approx p\left(x_{t+1}, \ldots, x_T \mid b_t\right)$。在递归策略中，隐藏状态被用作TD-VAE中智能体的信念状态，因此$b_t&#x3D;\operatorname{RNN}\left(b_{t-1}, x_t\right)$。</p>
-<p>**3. 跳跃式预测 **<br>此外，智能体应该能够基于迄今为止收集的所有信息来想象远期，这表明具有跳跃式预测能力，即预测未来几步的状态。</p>
-<p>回顾以上方差下界的内容：<br>$$<br>\begin{aligned}<br>\log p(x) &amp; \geq \log p(x)-D_{\mathrm{KL}}(q(z \mid x) | p(z \mid x)) \<br>&amp; &#x3D;\mathbb{E}<em>{z \sim q} \log p(x \mid z)-D</em>{\mathrm{KL}}(q(z \mid x) | p(z)) \<br>&amp; &#x3D;\mathbb{E}<em>{z \sim q} \log p(x \mid z)-\mathbb{E}</em>{z \sim q} \log \frac{q(z \mid x)}{p(z)} \<br>&amp; &#x3D;\mathbb{E}<em>{z \sim q}[\log p(x \mid z)-\log q(z \mid x)+\log p(z)] \<br>&amp; &#x3D;\mathbb{E}</em>{z \sim q}[\log p(x, z)-\log q(z \mid x)] \<br>\log p(x) &amp; \geq \mathbb{E}<em>{z \sim q}[\log p(x, z)-\log q(z \mid x)]<br>\end{aligned}<br>$$<br>现在让我们将状态$x_t$的分布建模为一个概率函数，条件为所有过去的状态$x</em>{&lt;t}$和当前时间步和上一步的两个潜在变量$z_t$和$z_{t-1}$：<br>$$<br>\log p\left(x_t \mid x_{&lt;t}\right) \geq \mathbb{E}<em>{(z t-1, z t) \sim q}\left[\log p\left(x_t, z</em>{t-1}, z_t \mid x_{&lt;t}\right)-\log q\left(z_{t-1}, z_t \mid x_{\leq t}\right)\right]<br>$$<br>继续扩展方程：<br>$$<br>\begin{aligned}<br>&amp; \log p\left(x_t \mid x_{&lt;t}\right) \<br>&amp; \geq \mathbb{E}<em>{(z t-1, z t) \sim q}\left[\log p\left(x_t, z</em>{t-1}, z_t \mid x_{&lt;t}\right)-\log q\left(z_{t-1}, z_t \mid x_{\leq t}\right)\right] \<br>&amp; \geq \mathbb{E}<em>{\left(z</em>{t-1}, z_t\right) \sim q}\left[\log p\left(x_t \mid z_{t-1}, z_t, x_{&lt;t}\right)+\log p\left(z_{t-1}, z_t \mid x_{&lt;t}\right)-\log q\left(z_{t-1}, z_t \mid x_{\leq t}\right)\right] \<br>&amp; \geq \mathbb{E}<em>{(z t-1, z t) \sim q}\left[\log p\left(x_t \mid z_t\right)+\log p\left(z</em>{t-1} \mid x_{&lt;t}\right)+\log p\left(z_t \mid z_{t-1}\right)-\log q\left(z_{t-1}, z_t \mid x_{\leq t}\right)\right] \<br>&amp; \geq \mathbb{E}<em>{(z t-1, z t) \sim q}\left[\log p\left(x_t \mid z_t\right)+\log p\left(z</em>{t-1} \mid x_{&lt;t}\right)+\log p\left(z_t \mid z_{t-1}\right)-\log q\left(z_t \mid x_{\leq t}\right)-\log q\left(z_{t-1} \mid z_t, x_{\leq t}\right)\right]<br>\end{aligned}<br>$$<br>注意三点：</p>
+<figure>
+<img src="从Autoencoder到beta-VAE\VQ-VAE-2.png" alt="VQ-VAE-2" /><figcaption aria-hidden="true">VQ-VAE-2</figcaption>
+</figure>
+<center>
+图10.分层VQ-VAE和多阶段图像生成的架构。(图片来源：Ali Razavi, et al. 2019)
+</center>
+<figure>
+<img src="从Autoencoder到beta-VAE\VQ-VAE-2-algo.png" alt="VQ-VAE-2-algo" /><figcaption aria-hidden="true">VQ-VAE-2-algo</figcaption>
+</figure>
+<center>
+图11. VQ-VAE-2算法。(图片来源：Ali Razavi, et al. 2019)
+</center>
+<h2 id="td-vae">TD-VAE</h2>
+<p>TD-VAE (“Temporal Difference VAE”; <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1806.03107">Gregor et al., 2019</a>)适用于连续的数据。它依赖于三个主要想法，描述如下。</p>
+<figure>
+<img src="从Autoencoder到beta-VAE\TD-VAE-state-space.png" alt="TD-VAE-state-space" /><figcaption aria-hidden="true">TD-VAE-state-space</figcaption>
+</figure>
+<center>
+图12. 马尔可夫链模型的状态空间模型。
+</center>
+<p><strong>1. 状态空间模型 </strong></p>
+<p>在（潜在的）状态空间模型中，一系列未观察到的隐藏状态<span class="math inline">\(\mathbf{z}=\left(z_1, \ldots, z_T\right)\)</span>确定了观测状态<span class="math inline">\(\mathbf{x}=\left(x_1, \ldots, x_T\right)\)</span>。在图13中的马尔可夫链模型中，与图6中类似，可以通过将难以处理的后验<span class="math inline">\(p(z \mid x)\)</span>近似为一个函数<span class="math inline">\(q(z \mid x)\)</span>来训练每个时间步。</p>
+<p><strong>2. 信念状态</strong> 一个智能体应该学会编码所有过去的状态以便推断未来，这被称为信念状态，<span class="math inline">\(b_t=\operatorname{belief}\left(x_1, \ldots, x_t\right)=\)</span> belief <span class="math inline">\(f\left(b_{t-1}, x_t\right)\)</span>。有了这个，将未来状态的分布条件化于过去就可以写成<span class="math inline">\(p\left(x_{t+1}, \ldots, x_T \mid x_1, \ldots, x_t\right) \approx p\left(x_{t+1}, \ldots, x_T \mid b_t\right)\)</span>。在递归策略中，隐藏状态被用作TD-VAE中智能体的信念状态，因此<span class="math inline">\(b_t=\operatorname{RNN}\left(b_{t-1}, x_t\right)\)</span>。</p>
+<p><strong>3. 跳跃式预测 </strong> 此外，智能体应该能够基于迄今为止收集的所有信息来想象远期，这表明具有跳跃式预测能力，即预测未来几步的状态。</p>
+<p>回顾以上方差下界的内容： <span class="math display">\[
+\begin{aligned}
+\log p(x) &amp; \geq \log p(x)-D_{\mathrm{KL}}(q(z \mid x) \| p(z \mid x)) \\
+&amp; =\mathbb{E}_{z \sim q} \log p(x \mid z)-D_{\mathrm{KL}}(q(z \mid x) \| p(z)) \\
+&amp; =\mathbb{E}_{z \sim q} \log p(x \mid z)-\mathbb{E}_{z \sim q} \log \frac{q(z \mid x)}{p(z)} \\
+&amp; =\mathbb{E}_{z \sim q}[\log p(x \mid z)-\log q(z \mid x)+\log p(z)] \\
+&amp; =\mathbb{E}_{z \sim q}[\log p(x, z)-\log q(z \mid x)] \\
+\log p(x) &amp; \geq \mathbb{E}_{z \sim q}[\log p(x, z)-\log q(z \mid x)]
+\end{aligned}
+\]</span> 现在让我们将状态<span class="math inline">\(x_t\)</span>的分布建模为一个概率函数，条件为所有过去的状态<span class="math inline">\(x_{&lt;t}\)</span>和当前时间步和上一步的两个潜在变量<span class="math inline">\(z_t\)</span>和<span class="math inline">\(z_{t-1}\)</span>： <span class="math display">\[
+\log p\left(x_t \mid x_{&lt;t}\right) \geq \mathbb{E}_{(z t-1, z t) \sim q}\left[\log p\left(x_t, z_{t-1}, z_t \mid x_{&lt;t}\right)-\log q\left(z_{t-1}, z_t \mid x_{\leq t}\right)\right]
+\]</span> 继续扩展方程： <span class="math display">\[
+\begin{aligned}
+&amp; \log p\left(x_t \mid x_{&lt;t}\right) \\
+&amp; \geq \mathbb{E}_{(z t-1, z t) \sim q}\left[\log p\left(x_t, z_{t-1}, z_t \mid x_{&lt;t}\right)-\log q\left(z_{t-1}, z_t \mid x_{\leq t}\right)\right] \\
+&amp; \geq \mathbb{E}_{\left(z_{t-1}, z_t\right) \sim q}\left[\log p\left(x_t \mid z_{t-1}, z_t, x_{&lt;t}\right)+\log p\left(z_{t-1}, z_t \mid x_{&lt;t}\right)-\log q\left(z_{t-1}, z_t \mid x_{\leq t}\right)\right] \\
+&amp; \geq \mathbb{E}_{(z t-1, z t) \sim q}\left[\log p\left(x_t \mid z_t\right)+\log p\left(z_{t-1} \mid x_{&lt;t}\right)+\log p\left(z_t \mid z_{t-1}\right)-\log q\left(z_{t-1}, z_t \mid x_{\leq t}\right)\right] \\
+&amp; \geq \mathbb{E}_{(z t-1, z t) \sim q}\left[\log p\left(x_t \mid z_t\right)+\log p\left(z_{t-1} \mid x_{&lt;t}\right)+\log p\left(z_t \mid z_{t-1}\right)-\log q\left(z_t \mid x_{\leq t}\right)-\log q\left(z_{t-1} \mid z_t, x_{\leq t}\right)\right]
+\end{aligned}
+\]</span> 注意三点：</p>
 <ul>
-<li><p>根据马尔可夫假设，<span style="color:red">红色</span>的项可以忽略。 </p>
-</li>
-<li><p>根据马尔可夫假设，<span style="color:blue">蓝色</span>蓝色的项进行了展开。</p>
-</li>
-<li><p><span style="color:green">绿色</span>的项进行了展开，包括了向过去进行一个步长预测的平滑分布。</p>
-</li>
+<li><p>根据马尔可夫假设，<span style="color:red">红色</span>的项可以忽略。</p></li>
+<li><p>根据马尔可夫假设，<span style="color:blue">蓝色</span>蓝色的项进行了展开。</p></li>
+<li><p><span style="color:green">绿色</span>的项进行了展开，包括了向过去进行一个步长预测的平滑分布。</p></li>
 </ul>
 <p>准确地说，有四种类型的分布需要学习：</p>
-<ol>
-<li>$p_D($.) 是<strong>decoder</strong> distribution：</li>
+<ol type="1">
+<li><span class="math inline">\(p_D(\)</span>.) 是<strong>decoder</strong> distribution：</li>
 </ol>
 <ul>
-<li>$p\left(x_t \mid z_t\right)$ 是通常定义下的编码器；</li>
-<li>$p\left(x_t \mid z_t\right) \rightarrow p_D\left(x_t \mid z_t\right)$；</li>
+<li><span class="math inline">\(p\left(x_t \mid z_t\right)\)</span> 是通常定义下的编码器；</li>
+<li><span class="math inline">\(p\left(x_t \mid z_t\right) \rightarrow p_D\left(x_t \mid z_t\right)\)</span>；</li>
 </ul>
-<ol>
-<li>$p_T($.) 是<strong>transition</strong> distribution：</li>
+<ol type="1">
+<li><span class="math inline">\(p_T(\)</span>.) 是<strong>transition</strong> distribution：</li>
 </ol>
 <ul>
-<li>$p\left(z_t \mid z_{t-1}\right)$ 捕捉潜变量之间的时序依赖关系；</li>
-<li>$p\left(z_t \mid z_{t-1}\right) \rightarrow p_T\left(z_t \mid z_{t-1}\right)$；</li>
+<li><span class="math inline">\(p\left(z_t \mid z_{t-1}\right)\)</span> 捕捉潜变量之间的时序依赖关系；</li>
+<li><span class="math inline">\(p\left(z_t \mid z_{t-1}\right) \rightarrow p_T\left(z_t \mid z_{t-1}\right)\)</span>；</li>
 </ul>
-<ol>
-<li>$p_B($.$) 是<strong>belief</strong> distribution：</li>
+<ol type="1">
+<li><span class="math inline">\(p_B(\)</span>.$) 是<strong>belief</strong> distribution：</li>
 </ol>
 <ul>
-<li>$p\left(z_{t-1} \mid x_{&lt;t}\right)$ 和 $q\left(z_t \mid x_{\leq t}\right)$ 都可以使用置信状态来预测潜变量；</li>
-<li>$p\left(z_{t-1} \mid x_{&lt;t}\right) \rightarrow p_B\left(z_{t-1} \mid b_{t-1}\right)$；</li>
-<li>$q\left(z_t \mid x_{\leq t}\right) \rightarrow p_B\left(z_t \mid b_t\right)$；</li>
+<li><span class="math inline">\(p\left(z_{t-1} \mid x_{&lt;t}\right)\)</span> 和 <span class="math inline">\(q\left(z_t \mid x_{\leq t}\right)\)</span> 都可以使用置信状态来预测潜变量；</li>
+<li><span class="math inline">\(p\left(z_{t-1} \mid x_{&lt;t}\right) \rightarrow p_B\left(z_{t-1} \mid b_{t-1}\right)\)</span>；</li>
+<li><span class="math inline">\(q\left(z_t \mid x_{\leq t}\right) \rightarrow p_B\left(z_t \mid b_t\right)\)</span>；</li>
 </ul>
-<ol>
-<li>$p_S($.$) 是<strong>smoothing</strong> distribution：</li>
+<ol type="1">
+<li><span class="math inline">\(p_S(\)</span>.$) 是<strong>smoothing</strong> distribution：</li>
 </ol>
 <ul>
-<li>可以将回溯到过去的平滑项 $q\left(z_{t-1} \mid z_t, x_{\leq t}\right)$ 重新写成依赖于belief状态的形式；</li>
-<li>$q\left(z_{t-1} \mid z_t, x_{\leq t}\right) \rightarrow p_S\left(z_{t-1} \mid z_t, b_{t-1}, b_t\right)$；</li>
+<li>可以将回溯到过去的平滑项 <span class="math inline">\(q\left(z_{t-1} \mid z_t, x_{\leq t}\right)\)</span> 重新写成依赖于belief状态的形式；</li>
+<li><span class="math inline">\(q\left(z_{t-1} \mid z_t, x_{\leq t}\right) \rightarrow p_S\left(z_{t-1} \mid z_t, b_{t-1}, b_t\right)\)</span>；</li>
 </ul>
-<p>为了结合跳跃预测的思想，顺序 ELBO 不仅要对$ t$,$t+1$起作用，还要对两个相距较远的时间戳 $t_1\textless t_2 $起作用。这是要最大化的最终 TD-VAE 目标函数：<br>$$<br>J_{t_1, t_2}&#x3D;\mathbb{E}\left[\log p_D\left(x_{t_2} \mid z_{t_2}\right)+\log p_B\left(z_{t_1} \mid b_{t_1}\right)+\log p_T\left(z_{t_2} \mid z_{t_1}\right)-\log p_B\left(z_{t_2} \mid b_{t_2}\right)-\log p_S\left(z_{t_1} \mid z_{t_2}, b_{t_1}, b_{t_2}\right)\right]<br>$$</p>
-<p><img src="/.io//%E4%BB%8EAutoencoder%E5%88%B0beta-VAE%5CTD-VAE.png" alt="TD-VAE"></p>
-<center>图13. TD-VAE 架构的详细概述，做得非常好。（图片来源：[TD-VAE论文](https://arxiv.org/abs/1806.03107)）</center>
+<p>为了结合跳跃预测的思想，顺序 ELBO 不仅要对$ t<span class="math inline">\(,\)</span>t+1$起作用，还要对两个相距较远的时间戳 $t_1t_2 $起作用。这是要最大化的最终 TD-VAE 目标函数： <span class="math display">\[
+J_{t_1, t_2}=\mathbb{E}\left[\log p_D\left(x_{t_2} \mid z_{t_2}\right)+\log p_B\left(z_{t_1} \mid b_{t_1}\right)+\log p_T\left(z_{t_2} \mid z_{t_1}\right)-\log p_B\left(z_{t_2} \mid b_{t_2}\right)-\log p_S\left(z_{t_1} \mid z_{t_2}, b_{t_1}, b_{t_2}\right)\right]
+\]</span></p>
+<figure>
+<img src="从Autoencoder到beta-VAE\TD-VAE.png" alt="TD-VAE" /><figcaption aria-hidden="true">TD-VAE</figcaption>
+</figure>
+<center>
+图13. TD-VAE 架构的详细概述，做得非常好。（图片来源：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1806.03107">TD-VAE论文</a>）
+</center>
 
     </div>
 
@@ -506,6 +642,9 @@
 </ul>
 </div>
 
+          <div class="post-tags">
+              <a href="/tags/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/" rel="tag"># 生成模型</a>
+          </div>
 
         
 
@@ -574,7 +713,7 @@
 
   
 
-  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"per_page":true,"cdn":"//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML","tags":"none","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
 <script src="/js/third-party/math/mathjax.js"></script>
 
 
