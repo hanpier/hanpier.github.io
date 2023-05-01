@@ -20,25 +20,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"hanpier.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.14.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="Welcome!">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Hanpier&#39;s Blog">
-<meta property="og:url" content="https://hanpier.github.io/index.html">
+    <meta name="description" content="变分下界公式推导我们的目的是最大化 $\log p_\theta(\mathbf{x})$，即最大化给定数据 $\mathbf{x}$ 的生成概率。然而，由于 $p_\theta(\mathbf{x})$ 往往难以直接计算，我们可以通过最大化变分下界 $\mathcal{L}(\theta, \phi; \mathbf{x})$ 来近似地最大化 $\log p_\theta(\mathbf{x})">
+<meta property="og:type" content="article">
+<meta property="og:title" content="变分下界">
+<meta property="og:url" content="https://hanpier.github.io/2023/05/01/16-44-01/index.html">
 <meta property="og:site_name" content="Hanpier&#39;s Blog">
-<meta property="og:description" content="Welcome!">
+<meta property="og:description" content="变分下界公式推导我们的目的是最大化 $\log p_\theta(\mathbf{x})$，即最大化给定数据 $\mathbf{x}$ 的生成概率。然而，由于 $p_\theta(\mathbf{x})$ 往往难以直接计算，我们可以通过最大化变分下界 $\mathcal{L}(\theta, \phi; \mathbf{x})$ 来近似地最大化 $\log p_\theta(\mathbf{x})">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-05-01T07:44:01.000Z">
+<meta property="article:modified_time" content="2023-05-01T07:45:06.245Z">
 <meta property="article:author" content="Hanpier">
+<meta property="article:tag" content="生成模型">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://hanpier.github.io/">
+<link rel="canonical" href="https://hanpier.github.io/2023/05/01/16-44-01/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://hanpier.github.io/2023/05/01/16-44-01/","path":"2023/05/01/16-44-01/","title":"变分下界"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Hanpier's Blog</title>
+<title>变分下界 | Hanpier's Blog</title>
   
 
 
@@ -71,7 +74,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">Hanpier's Blog</h1>
+      <p class="site-title">Hanpier's Blog</p>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">少吃零食，多睡觉</p>
@@ -125,7 +128,7 @@
   
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -138,6 +141,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%98%E5%88%86%E4%B8%8B%E7%95%8C"><span class="nav-text">变分下界</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC"><span class="nav-text">公式推导</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AC%E5%BC%8F%E8%AF%B4%E6%98%8E"><span class="nav-text">公式说明</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -191,16 +195,17 @@
 
     </div>
 
-    <div class="main-inner index posts-expand">
+    <div class="main-inner post posts-expand">
 
-    
+
+  
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://hanpier.github.io/2023/05/01/16-44-01/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -214,13 +219,13 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hanpier's Blog">
+      <meta itemprop="name" content="变分下界 | Hanpier's Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/05/01/16-44-01/" class="post-title-link" itemprop="url">变分下界</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          变分下界
+        </h1>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -253,7 +258,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="变分下界"><a href="#变分下界" class="headerlink" title="变分下界"></a>变分下界</h1><h2 id="公式推导"><a href="#公式推导" class="headerlink" title="公式推导"></a>公式推导</h2><p>我们的目的是最大化 $\log p_\theta(\mathbf{x})$，即最大化给定数据 $\mathbf{x}$ 的生成概率。然而，由于 $p_\theta(\mathbf{x})$ 往往难以直接计算，我们可以通过最大化变分下界 $\mathcal{L}(\theta, \phi; \mathbf{x})$ 来近似地最大化 $\log p_\theta(\mathbf{x})$。因此，我们的最终目标是最大化变分下界 $\mathcal{L}(\theta, \phi; \mathbf{x})$，以此来间接地最大化 $\log p_\theta(\mathbf{x})$。</p>
+        <h1 id="变分下界"><a href="#变分下界" class="headerlink" title="变分下界"></a>变分下界</h1><h2 id="公式推导"><a href="#公式推导" class="headerlink" title="公式推导"></a>公式推导</h2><p>我们的目的是最大化 $\log p_\theta(\mathbf{x})$，即最大化给定数据 $\mathbf{x}$ 的生成概率。然而，由于 $p_\theta(\mathbf{x})$ 往往难以直接计算，我们可以通过最大化变分下界 $\mathcal{L}(\theta, \phi; \mathbf{x})$ 来近似地最大化 $\log p_\theta(\mathbf{x})$。因此，我们的最终目标是最大化变分下界 $\mathcal{L}(\theta, \phi; \mathbf{x})$，以此来间接地最大化 $\log p_\theta(\mathbf{x})$。</p>
 <p>变分下界 $\mathcal{L}(\theta, \phi; \mathbf{x})$ 是对 $\log p_\theta(\mathbf{x})$ 的下界估计，即 $\log p_\theta(\mathbf{x})$ 的值不小于 $\mathcal{L}(\theta, \phi; \mathbf{x})$。这可以通过变分下界的定义式：<br>$$<br>\begin{aligned}<br>&amp; \log p_\theta(\mathbf{x})&#x3D;\mathbb{E}<em>{\mathbf{z} \sim q_\phi(\mathbf{z} \mid \mathbf{x})}\left[\log p_\theta(\mathbf{x})\right]；见最后\<br>&amp; &#x3D;\mathbb{E}</em>{\mathbf{z} \sim q_\phi(\mathbf{z} \mid \mathbf{x})}\left[\log \frac{p_\theta(\mathbf{x}, \mathbf{z})}{p_\theta(\mathbf{z} \mid \mathbf{x})}\right] \<br>&amp; &#x3D;\mathbb{E}<em>{\mathbf{z} \sim q \phi(\mathbf{z} \mid \mathbf{x})}\left[\log \frac{p_\theta(\mathbf{x}, \mathbf{z}) q_\phi(\mathbf{z} \mid \mathbf{x})}{p_\theta(\mathbf{z} \mid \mathbf{x}) q_\phi(\mathbf{z} \mid \mathbf{x})}\right] \<br>&amp; &#x3D;\mathbb{E}</em>{\mathbf{z} \sim q \phi(\mathbf{z} \mid \mathbf{x})}\left[\log \frac{p_\theta(\mathbf{x}, \mathbf{z})}{q_\phi(\mathbf{z} \mid \mathbf{x})}\right]+\mathbb{E}_{\mathbf{z} \sim q \phi(\mathbf{z} \mid \mathbf{x})}\left[\log \frac{q_\phi(\mathbf{z} \mid \mathbf{x})}{p_\theta(\mathbf{z} \mid \mathbf{x})}\right] \<br>&amp; &#x3D;\mathcal{L}(\theta, \phi ; \mathbf{x})+\mathrm{KL}\left(q_\phi(\mathbf{z} \mid \mathbf{x}) | p_\theta(\mathbf{z} \mid \mathbf{x})\right) \<br>&amp; \geq \mathcal{L}(\theta, \phi ; \mathbf{x}) \<br>&amp;<br>\end{aligned}<br>$$<br>其中，我们用到了变分下界的定义式，以及 KL 散度的非负性质 $\text{KL}\left(q_\phi(\mathbf{z} \mid \mathbf{x}) || p_\theta(\mathbf{z} \mid \mathbf{x})\right) \geq 0$，进而得到了 $\log p_\theta(\mathbf{x})$ 与变分下界 $\mathcal{L}(\theta, \phi; \mathbf{x})$ 的关系。</p>
 <p>通过最大化 $\mathcal{L}(\theta, \phi; \mathbf{x})$，我们可以得到一个近似的最优解 $(\hat{\theta}, \hat{\phi})$，这个近似的最优解可以用来估计 $p_\theta(\mathbf{z} \mid \mathbf{x})$ 和 $\log p_\theta(\mathbf{x})$。具体来说，我们可以通过以下的方式来估计这些量：<br>$$<br>\begin{gathered}<br>\log p_\theta(\mathbf{x}) \approx \mathcal{L}(\hat{\theta}, \hat{\phi} ; \mathbf{x}) \<br>p_\theta(\mathbf{z} \mid \mathbf{x}) \approx q(\mathbf{z} \mid \mathbf{x}) \approx \frac{1}{K} \sum_{k&#x3D;1}^K q\left(\mathbf{z}^{(k)} \mid \mathbf{x}\right)<br>\end{gathered}<br>$$<br>其中 $\mathbf{z}^{(1)}, \mathbf{z}^{(2)}, \ldots, \mathbf{z}^{(K)}$ 是从 $q(\mathbf{z} \mid \mathbf{x})$ 中采样得到的随机向量，$K$ 是采样数量。</p>
 <p>因此，通过最大化变分下界，我们可以使用一种近似的方式来求解无法直接计算的 $\log p_\theta(\mathbf{x})$ 和 $p_\theta(\mathbf{z} \mid \mathbf{x})$。</p>
@@ -261,7 +266,6 @@
 <h2 id="公式说明"><a href="#公式说明" class="headerlink" title="公式说明"></a>公式说明</h2><p>$$<br>\mathbb{E}_{\mathbf{z} \sim q_\phi(\mathbf{z} \mid \mathbf{x})}\left[\log p_\theta(\mathbf{x})\right]&#x3D;\int \log p_\theta(\mathbf{x}) q_\phi(\mathbf{z} \mid \mathbf{x}) d \mathbf{z}<br>$$</p>
 <p>由于 $\log p_\theta(\mathbf{x})$ 不依赖于 $\mathbf{z}$，所以可以将其提取出来，得到：<br>$$<br>\mathbb{E}_{\mathbf{z} \sim q_\phi(\mathbf{z} \mid \mathbf{x})}\left[\log p_\theta(\mathbf{x})\right]&#x3D;\log p_\theta(\mathbf{x}) \int q_\phi(\mathbf{z} \mid \mathbf{x}) d \mathbf{z}&#x3D;\log p_\theta(\mathbf{x})<br>$$<br>这里用到了 $\int q_\phi(\mathbf{z} \mid \mathbf{x}) d\mathbf{z} &#x3D; 1$，即 $q_\phi(\mathbf{z} \mid \mathbf{x})$ 是一个概率密度函数的性质。因此，右边等于 $\log p_\theta(\mathbf{x})$。</p>
 
-      
     </div>
 
     
@@ -269,190 +273,38 @@
     
 
     <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
+          
+
+<div class="post-copyright">
+<ul>
+  <li class="post-copyright-author">
+      <strong>本文作者： </strong>Hanpier
+  </li>
+  <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="https://hanpier.github.io/2023/05/01/16-44-01/" title="变分下界">https://hanpier.github.io/2023/05/01/16-44-01/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
 </div>
 
+          <div class="post-tags">
+              <a href="/tags/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/" rel="tag"># 生成模型</a>
+          </div>
 
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hanpier.github.io/2023/04/24/19-17-24/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Hanpier">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hanpier's Blog">
-      <meta itemprop="description" content="Welcome!">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hanpier's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/04/24/19-17-24/" class="post-title-link" itemprop="url">从Autoencoder到beta-VAE</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2023-04-24 19:17:24 / 修改时间：21:05:14" itemprop="dateCreated datePublished" datetime="2023-04-24T19:17:24+09:00">2023-04-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>https://lilianweng.github.io/posts/2018-08-12-vae/#reparameterization-trick 中文翻译</p>
-<h1 id="从autoencoder到beta-vae">从Autoencoder到beta-VAE</h1>
-<p>Autoencoder是一个为了使用中间有一个狭窄的bottleneck的神经网络模型重建高维数据而发明的（对于Varaitional Autoencoder可能不是这样的，我们将在后面的章节中详细研究它）。一个很好的副产品是降维：bottleneck层捕获了压缩的潜在编码。这样的低维表示可以用作各种应用（即搜索中的嵌入向量），帮助数据压缩，或者揭示潜在的数据生成因素。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/04/24/19-17-24/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://hanpier.github.io/2023/02/09/23-44-15/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpg">
-      <meta itemprop="name" content="Hanpier">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hanpier's Blog">
-      <meta itemprop="description" content="Welcome!">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Hanpier's Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/02/09/23-44-15/" class="post-title-link" itemprop="url">k-Fold交叉验证代码</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2023-02-09 23:44:15" itemprop="dateCreated datePublished" datetime="2023-02-09T23:44:15+09:00">2023-02-09</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-02-10 18:18:04" itemprop="dateModified" datetime="2023-02-10T18:18:04+09:00">2023-02-10</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="k-fold交叉验证代码">1. k-Fold交叉验证代码</h3>
-<p>k-Fold交叉验证是一种在机器学习中常用的验证模型性能的方法。它将训练数据集分为k个大小相似的互不重叠的子集，每个子集验证一次，最终验证结果是k次验证结果的平均值。</p>
-<p>以下是使用python实现的k-Fold交叉验证代码：</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/02/09/23-44-15/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/04/24/19-17-24/" rel="prev" title="从Autoencoder到beta-VAE">
+                  <i class="fa fa-chevron-left"></i> 从Autoencoder到beta-VAE
+                </a>
             </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
+            <div class="post-nav-item">
+            </div>
+          </div>
     </footer>
   </article>
 </div>
@@ -461,6 +313,8 @@
 
 
 
+
+    <div class="comments gitalk-container"></div>
 </div>
   </main>
 
@@ -513,7 +367,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
 
-<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"hanpier","repo":"hanpier.github.io","client_id":"7add9871ac1cd4117b3a","client_secret":"b8c0e15de02d03567d2ecba4cfe87d53acf171ec","admin_user":"hanpier","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"d1546d731a9f30cc80127d57142a482b"}</script>
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"hanpier","repo":"hanpier.github.io","client_id":"7add9871ac1cd4117b3a","client_secret":"b8c0e15de02d03567d2ecba4cfe87d53acf171ec","admin_user":"hanpier","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"02c28ec45c0f41cc1f4c44ac53140bd1"}</script>
 <script src="/js/third-party/comments/gitalk.js"></script>
 
 </body>

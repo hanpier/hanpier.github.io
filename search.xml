@@ -380,4 +380,22 @@ J_{t_1, t_2}=\mathbb{E}\left[\log p_D\left(x_{t_2} \mid z_{t_2}\right)+\log p_B\
         <tag>生成模型</tag>
       </tags>
   </entry>
+  <entry>
+    <title>变分下界</title>
+    <url>/2023/05/01/16-44-01/</url>
+    <content><![CDATA[<h1 id="变分下界"><a href="#变分下界" class="headerlink" title="变分下界"></a>变分下界</h1><h2 id="公式推导"><a href="#公式推导" class="headerlink" title="公式推导"></a>公式推导</h2><p>我们的目的是最大化 $\log p_\theta(\mathbf{x})$，即最大化给定数据 $\mathbf{x}$ 的生成概率。然而，由于 $p_\theta(\mathbf{x})$ 往往难以直接计算，我们可以通过最大化变分下界 $\mathcal{L}(\theta, \phi; \mathbf{x})$ 来近似地最大化 $\log p_\theta(\mathbf{x})$。因此，我们的最终目标是最大化变分下界 $\mathcal{L}(\theta, \phi; \mathbf{x})$，以此来间接地最大化 $\log p_\theta(\mathbf{x})$。</p>
+<p>变分下界 $\mathcal{L}(\theta, \phi; \mathbf{x})$ 是对 $\log p_\theta(\mathbf{x})$ 的下界估计，即 $\log p_\theta(\mathbf{x})$ 的值不小于 $\mathcal{L}(\theta, \phi; \mathbf{x})$。这可以通过变分下界的定义式：<br>$$<br>\begin{aligned}<br>&amp; \log p_\theta(\mathbf{x})&#x3D;\mathbb{E}<em>{\mathbf{z} \sim q_\phi(\mathbf{z} \mid \mathbf{x})}\left[\log p_\theta(\mathbf{x})\right]；见最后\<br>&amp; &#x3D;\mathbb{E}</em>{\mathbf{z} \sim q_\phi(\mathbf{z} \mid \mathbf{x})}\left[\log \frac{p_\theta(\mathbf{x}, \mathbf{z})}{p_\theta(\mathbf{z} \mid \mathbf{x})}\right] \<br>&amp; &#x3D;\mathbb{E}<em>{\mathbf{z} \sim q \phi(\mathbf{z} \mid \mathbf{x})}\left[\log \frac{p_\theta(\mathbf{x}, \mathbf{z}) q_\phi(\mathbf{z} \mid \mathbf{x})}{p_\theta(\mathbf{z} \mid \mathbf{x}) q_\phi(\mathbf{z} \mid \mathbf{x})}\right] \<br>&amp; &#x3D;\mathbb{E}</em>{\mathbf{z} \sim q \phi(\mathbf{z} \mid \mathbf{x})}\left[\log \frac{p_\theta(\mathbf{x}, \mathbf{z})}{q_\phi(\mathbf{z} \mid \mathbf{x})}\right]+\mathbb{E}_{\mathbf{z} \sim q \phi(\mathbf{z} \mid \mathbf{x})}\left[\log \frac{q_\phi(\mathbf{z} \mid \mathbf{x})}{p_\theta(\mathbf{z} \mid \mathbf{x})}\right] \<br>&amp; &#x3D;\mathcal{L}(\theta, \phi ; \mathbf{x})+\mathrm{KL}\left(q_\phi(\mathbf{z} \mid \mathbf{x}) | p_\theta(\mathbf{z} \mid \mathbf{x})\right) \<br>&amp; \geq \mathcal{L}(\theta, \phi ; \mathbf{x}) \<br>&amp;<br>\end{aligned}<br>$$<br>其中，我们用到了变分下界的定义式，以及 KL 散度的非负性质 $\text{KL}\left(q_\phi(\mathbf{z} \mid \mathbf{x}) || p_\theta(\mathbf{z} \mid \mathbf{x})\right) \geq 0$，进而得到了 $\log p_\theta(\mathbf{x})$ 与变分下界 $\mathcal{L}(\theta, \phi; \mathbf{x})$ 的关系。</p>
+<p>通过最大化 $\mathcal{L}(\theta, \phi; \mathbf{x})$，我们可以得到一个近似的最优解 $(\hat{\theta}, \hat{\phi})$，这个近似的最优解可以用来估计 $p_\theta(\mathbf{z} \mid \mathbf{x})$ 和 $\log p_\theta(\mathbf{x})$。具体来说，我们可以通过以下的方式来估计这些量：<br>$$<br>\begin{gathered}<br>\log p_\theta(\mathbf{x}) \approx \mathcal{L}(\hat{\theta}, \hat{\phi} ; \mathbf{x}) \<br>p_\theta(\mathbf{z} \mid \mathbf{x}) \approx q(\mathbf{z} \mid \mathbf{x}) \approx \frac{1}{K} \sum_{k&#x3D;1}^K q\left(\mathbf{z}^{(k)} \mid \mathbf{x}\right)<br>\end{gathered}<br>$$<br>其中 $\mathbf{z}^{(1)}, \mathbf{z}^{(2)}, \ldots, \mathbf{z}^{(K)}$ 是从 $q(\mathbf{z} \mid \mathbf{x})$ 中采样得到的随机向量，$K$ 是采样数量。</p>
+<p>因此，通过最大化变分下界，我们可以使用一种近似的方式来求解无法直接计算的 $\log p_\theta(\mathbf{x})$ 和 $p_\theta(\mathbf{z} \mid \mathbf{x})$。</p>
+<p>在实践中，一般使用等价的形式来计算变分下界，即：<br>$$<br>\mathcal{L}(\theta, \phi ; \mathbf{x})&#x3D;\mathrm{KL}\left(q_\phi(\mathbf{z} \mid \mathbf{x}) | p_\theta(\mathbf{z} \mid \mathbf{x})\right)-\mathbb{E}_{q_\phi(\mathbf{z} \mid \mathbf{x})}\left[\log p_\theta(\mathbf{x}, \mathbf{z})\right]<br>$$<br>其中，第一项是 $\text{KL}$ 散度。第二项是期望，可以使用蒙特卡罗方法（如重参数化技巧）来估计。这样就可以通过对 $\mathcal{L}(\theta, \phi; \mathbf{x})$ 进行梯度上升来最大化该下界，从而近似最大化 $\log p_\theta(\mathbf{x})$。</p>
+<h2 id="公式说明"><a href="#公式说明" class="headerlink" title="公式说明"></a>公式说明</h2><p>$$<br>\mathbb{E}_{\mathbf{z} \sim q_\phi(\mathbf{z} \mid \mathbf{x})}\left[\log p_\theta(\mathbf{x})\right]&#x3D;\int \log p_\theta(\mathbf{x}) q_\phi(\mathbf{z} \mid \mathbf{x}) d \mathbf{z}<br>$$</p>
+<p>由于 $\log p_\theta(\mathbf{x})$ 不依赖于 $\mathbf{z}$，所以可以将其提取出来，得到：<br>$$<br>\mathbb{E}_{\mathbf{z} \sim q_\phi(\mathbf{z} \mid \mathbf{x})}\left[\log p_\theta(\mathbf{x})\right]&#x3D;\log p_\theta(\mathbf{x}) \int q_\phi(\mathbf{z} \mid \mathbf{x}) d \mathbf{z}&#x3D;\log p_\theta(\mathbf{x})<br>$$<br>这里用到了 $\int q_\phi(\mathbf{z} \mid \mathbf{x}) d\mathbf{z} &#x3D; 1$，即 $q_\phi(\mathbf{z} \mid \mathbf{x})$ 是一个概率密度函数的性质。因此，右边等于 $\log p_\theta(\mathbf{x})$。</p>
+]]></content>
+      <categories>
+        <category>深度学习</category>
+      </categories>
+      <tags>
+        <tag>生成模型</tag>
+      </tags>
+  </entry>
 </search>
